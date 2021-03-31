@@ -67,7 +67,5 @@
     <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
     <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
     <Build Include="Stored Procedures\Transaction_SelectTransferById.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectTransferBySenderId.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectTransferByRecipientId.sql.sql" />
   </ItemGroup>
 </Project>
