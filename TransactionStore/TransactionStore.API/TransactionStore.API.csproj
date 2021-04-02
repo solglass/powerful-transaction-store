@@ -14,5 +14,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TransactionStore.Business\TransactionStore.Business.csproj" />
+    <ProjectReference Include="..\TransactionStore.Core\TransactionStore.Core.csproj" />
+  </ItemGroup>
+
 
 </Project>
