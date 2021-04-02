@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
-using TransactionStore.Data.Models;
+using TransactionStore.Core.Models;
 
 namespace TransactionStore.API
 {

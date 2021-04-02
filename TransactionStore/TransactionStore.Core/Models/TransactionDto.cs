@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TransactionStore.Data.Models
+namespace TransactionStore.Core.Models
 {
     public class TransactionDto
     {

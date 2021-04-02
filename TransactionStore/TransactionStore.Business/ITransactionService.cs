@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TransactionStore.Data.Models;
+using TransactionStore.Core.Models;
 
 namespace TransactionStore.Business
 {

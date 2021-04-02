@@ -1,6 +1,6 @@
 ﻿using System;
 using TransactionStore.Data;
-using TransactionStore.Data.Models;
+using TransactionStore.Core.Models;
 
 namespace TransactionStore.Business
 {

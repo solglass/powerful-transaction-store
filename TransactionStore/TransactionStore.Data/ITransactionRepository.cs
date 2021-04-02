@@ -1,5 +1,5 @@
 ﻿using System;
-using TransactionStore.Data.Models;
+using TransactionStore.Core.Models;
 
 namespace TransactionStore.Data
 {

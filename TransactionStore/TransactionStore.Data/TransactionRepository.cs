@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using TransactionStore.Core.Settings;
-using TransactionStore.Data.Models;
+using TransactionStore.Core.Models;
 
 namespace TransactionStore.Data
 {

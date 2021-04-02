@@ -1,6 +1,7 @@
 ﻿using System;
+using TransactionStore.Core.Models;
 
-namespace TransactionStore.Data.Models
+namespace TransactionStore.Core.Models
 {
     public class TransferDto : TransactionDto
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TransactionStore.Data.Models
+namespace TransactionStore.Core.Models
 {
     public class LeadBalanceDto
     {
