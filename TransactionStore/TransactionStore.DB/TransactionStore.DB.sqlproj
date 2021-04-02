@@ -62,8 +62,6 @@
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
     <Build Include="Stored Procedures\Transaction_AddDepositOrWithdraw.sql" />
-    <Build Include="Stored Procedures\Transaction_Delete.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectById.sql" />
     <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
     <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
     <Build Include="Stored Procedures\Transaction_SelectTransferByLeadId.sql" />

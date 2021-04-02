@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TransactionStore.API.Config;
+using TransactionStore.Business.Config;
 using TransactionStore.Core.Settings;
 
 namespace TransactionStore.API
