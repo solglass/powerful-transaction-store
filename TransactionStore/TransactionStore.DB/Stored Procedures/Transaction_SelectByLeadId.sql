@@ -6,6 +6,7 @@ select
 	t.Id,
 	t.Timestamp,
 	t.Amount,
+	t.Currency,
 	t.[Type]
 	from [dbo].[Transaction] t
 	where t.LeadId = @leadId

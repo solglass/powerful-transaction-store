@@ -25,27 +25,12 @@ namespace TransactionStore.Data
             throw new NotImplementedException();
         }
 
-        public int DeleteTransaction(int transactionId)
+        List<TransactionDto> ITransactionRepository.GetTransactionByLeadId(int leadId)
         {
             throw new NotImplementedException();
         }
 
-        public LeadBalanceDto GetBalanceByLeadId(int leadId, DateTime date)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TransactionDto GetTransactionById(int transactionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TransactionDto GetTransactionByLeadId(int transactionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TransferDto GetTransferBydId(int transactionId)
+        public decimal GetBalanceByLeadId(int leadId)
         {
             throw new NotImplementedException();
         }

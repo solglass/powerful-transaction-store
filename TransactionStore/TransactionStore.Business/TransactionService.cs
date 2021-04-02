@@ -18,17 +18,14 @@ namespace TransactionStore.Business
         {
             throw new NotImplementedException();
         }
-
-        public decimal GetBalanceByLeadId(int leadId)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<TransactionDto> GetTransactionsByLeadId(int leadId)
         {
             throw new NotImplementedException();
         }
 
-       
+        public decimal GetBalanceByLeadId(int leadId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

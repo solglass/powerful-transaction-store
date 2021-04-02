@@ -65,5 +65,6 @@
     <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
     <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
     <Build Include="Stored Procedures\Transaction_SelectTransferByLeadId.sql" />
+    <Build Include="Stored Procedures\Transaction_GetBalanceByLeadId.sql" />
   </ItemGroup>
 </Project>

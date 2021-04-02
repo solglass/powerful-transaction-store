@@ -11,6 +11,7 @@ select
 		and tr.LeadId <> t.LeadId) as RecipientId,
 	t.Timestamp,
 	t.Amount,
+	t.Currency,
 	t.[Type]
 	from [dbo].[Transaction] t
 	where t.LeadId = @leadId and t.Amount < 0
@@ -24,6 +25,7 @@ union all
 	t.LeadId as RecipientId,
 	t.Timestamp,
 	t.Amount,
+	t.Currency,
 	t.[Type]
 	from [dbo].[Transaction] t
 	where t.LeadId = @leadId and t.Amount > 0
