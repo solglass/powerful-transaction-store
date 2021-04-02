@@ -1,6 +1,7 @@
 ﻿using System;
 using TransactionStore.Data;
 using TransactionStore.Core.Models;
+using System.Collections.Generic;
 
 namespace TransactionStore.Business
 {
@@ -18,29 +19,16 @@ namespace TransactionStore.Business
             throw new NotImplementedException();
         }
 
-        public int DeleteTransaction(int transactionId)
+        public decimal GetBalanceByLeadId(int leadId)
         {
             throw new NotImplementedException();
         }
 
-        public LeadBalanceDto GetBalanceByLeadId(int leadId, DateTime date)
+        public List<TransactionDto> GetTransactionsByLeadId(int leadId)
         {
             throw new NotImplementedException();
         }
 
-        public TransactionDto GetTransactionById(int transactionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TransactionDto GetTransactionByLeadId(int transactionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TransferDto GetTransferBydId(int transactionId)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
