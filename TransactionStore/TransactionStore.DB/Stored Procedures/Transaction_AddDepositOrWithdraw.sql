@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Transaction_AddDepositOrWithdraw]
 	@leadId int,
-	@amount int,
+	@amount decimal,
 	@type int
 as
 begin

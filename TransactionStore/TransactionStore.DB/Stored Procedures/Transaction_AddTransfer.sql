@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[Transaction_AddTransfer]
 	@senderId int,
 	@recipientId int,
-	@amount int
+	@amount decimal
 as
 begin
 	Declare 
