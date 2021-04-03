@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EducationSystem.Core.Enums;
 using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
 using TransactionStore.Core.Models;
@@ -13,13 +10,16 @@ namespace TransactionStore.API
     {
         public AutomapperConfig()
         {
-            CreateMap<TransactionDto, TransactionOutputModel>();
+            CreateMap<TransactionDto, TransactionOutputModel>()
+                .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyCurrencyName(src.Currency)))
+                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)));
             CreateMap<TransactionInputModel, TransactionDto>();
 
             CreateMap<TransferDto, TransferOutputModel>();
             CreateMap<TransferInputModel, TransferDto>();
 
-            CreateMap<LeadBalanceDto, LeadBalanceOutputModel>();
+            CreateMap<LeadBalanceDto, LeadBalanceOutputModel>()
+                .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyCurrencyName(src.Currency)));
         }
     }
 }

@@ -6,10 +6,10 @@ namespace EducationSystem.Core.Enums
 {
     public static class FriendlyNames
     {
-        public static string GetFriendlyCurrencyName(Currency attachmentType)
+        public static string GetFriendlyCurrencyName(Currency currencyType)
         {
 
-            string friendlyName = attachmentType switch
+            string friendlyName = currencyType switch
             {
                 Currency.RUB => "Рубль",
                 Currency.USD => "Доллар",
@@ -20,17 +20,17 @@ namespace EducationSystem.Core.Enums
             return friendlyName;
 
         }
-        public static string GetFriendlyTransactionTypeName(TransactionType groupStatus)
+
+        public static string GetFriendlyTransactionTypeName(TransactionType transactionType)
         {
-            string friendlyName = groupStatus switch
+            string friendlyName = transactionType switch
             {
-                TransactionType.Deposit => "Внести на счет",
-                TransactionType.Withdraw => "Снять со счета",
+                TransactionType.Deposit => "Внесение",
+                TransactionType.Withdraw => "Снятие",
                 TransactionType.Transfer => "Перевод",
                 _ => "Некорретная операция"
             };
             return friendlyName;
-
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using TransactionStore.Core.Settings;
 using TransactionStore.Core.Models;
 using Dapper;

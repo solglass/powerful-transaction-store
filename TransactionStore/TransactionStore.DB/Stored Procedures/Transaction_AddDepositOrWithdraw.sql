@@ -5,7 +5,7 @@
 	@type int
 as
 begin
-	insert into dbo.[Transaction] (LeadId, Amount, [Type], [Currency], [Timestamp])
-	values (@leadId, @amount, @type, @currency, CURRENT_TIMESTAMP)
+	insert into dbo.[Transaction] (LeadId, Amount, [Currency], [Type], [Timestamp])
+	values (@leadId, @amount, @currency, @type, CURRENT_TIMESTAMP)
 	select SCOPE_IDENTITY()
 end
