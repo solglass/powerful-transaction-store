@@ -10,6 +10,7 @@ namespace TransactionStore.Business
         int AddDepositeOrWithdraw(TransactionDto dto);
         int AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByLeadId(int leadId);
+        List<TransferDto> GetTransfersByLeadId(int leadId);
         decimal GetBalanceByLeadId(int leadId);
     }
 }
