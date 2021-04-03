@@ -9,6 +9,11 @@ namespace TransactionStore.Business
     {
         private ITransactionRepository _transactionRepository;
 
+        public TransactionService(ITransactionRepository transactionRepository)
+        {
+            _transactionRepository = transactionRepository;
+        }
+
         public int AddDepositeOrWithdraw(TransactionDto transaction) => _transactionRepository.AddDepositeOrWithdraw(transaction);
         public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
         public List<TransactionDto> GetTransactionsByLeadId(int leadId) => _transactionRepository.GetTransactionsByLeadId(leadId);
