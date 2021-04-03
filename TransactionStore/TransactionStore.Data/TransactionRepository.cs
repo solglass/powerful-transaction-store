@@ -49,13 +49,7 @@ namespace TransactionStore.Data
         public List<TransactionDto> GetTransactionsByLeadId(int leadId)
         {
             var transactions = 
-                _connection.Query<TransactionDto, int, int, TransactionDto>("dbo.Transaction_SelectByLeadId",
-           (transaction, type, currency) =>
-           {
-               transaction.Type = (TransactionType)type;
-               transaction.Currency = (Currency)currency;
-               return transaction;
-           },
+                _connection.Query<TransactionDto>("dbo.Transaction_SelectByLeadId",
             new { leadId }, 
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transactions;

@@ -37,7 +37,7 @@ namespace TransactionStore.API.Controllers
         {
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
             _transactionService.AddDepositeOrWithdraw(transactionDto);
-            var result = _mapper.Map<TransactionOutputModel>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
+            var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
             return Ok(result);
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace TransactionStore.API.Controllers
         }
 
         /// <summary>
-        /// Get one transaction by leadId
+        /// Get list of transactions by leadId
         /// </summary>
         /// <param name="leadId">Id of lead</param>
         /// <returns>Returns list of TransactionOutputModels</returns>
@@ -65,11 +65,11 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("/transactions/{leadId}")]
         public ActionResult <List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
-            var result = _mapper.Map<TransactionOutputModel>(transactionDto);
+            var result = _mapper.Map<List<TransactionOutputModel>>(transactionDto);
             return Ok(result);
         }
         /// <summary>
@@ -81,7 +81,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("/transfers/{leadId}")]
         public ActionResult<List<TransferOutputModel>> GetTransfersByLeadId(int leadId)
         {
             var transferDto = _transactionService.GetTransfersByLeadId(leadId);
@@ -98,7 +98,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("/balance/{leadId}")]
         public ActionResult<decimal> GetBalanceByLeadId(int leadId)
         {
             var balance = _transactionService.GetBalanceByLeadId(leadId);
