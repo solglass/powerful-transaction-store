@@ -30,9 +30,9 @@ namespace TransactionStore.API.Controllers
         /// </summary>
         /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
-        // https://localhost:44365/api/transaction
+        // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
-        [HttpPost]
+        [HttpPost("/depositeorwithdraw/")]
         public ActionResult<TransactionOutputModel> AddDepositeOrWithdraw([FromBody] TransactionInputModel transaction)
         {
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
@@ -45,9 +45,9 @@ namespace TransactionStore.API.Controllers
         /// </summary>
         /// <param name="transfer">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
-        // https://localhost:44365/api/transaction
+        // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
-        [HttpPost]
+        [HttpPost("/transfer/")]
         public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel transfer)
         {
             var transferDto = _mapper.Map<TransferDto>(transfer);
