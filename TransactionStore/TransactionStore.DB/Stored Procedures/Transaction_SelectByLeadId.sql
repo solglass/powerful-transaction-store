@@ -5,6 +5,7 @@ begin
 select 
 	t.Id,
 	t.Timestamp,
+	t.LeadId,
 	t.Amount,
 	t.Currency,
 	t.[Type]
