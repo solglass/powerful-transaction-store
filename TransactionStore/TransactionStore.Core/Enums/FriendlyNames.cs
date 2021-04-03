@@ -6,7 +6,7 @@ namespace EducationSystem.Core.Enums
 {
     public static class FriendlyNames
     {
-        public static string GetFriendlyAttachmentTypeName(Currency attachmentType)
+        public static string GetFriendlyCurrencyName(Currency attachmentType)
         {
 
             string friendlyName = attachmentType switch
@@ -20,7 +20,7 @@ namespace EducationSystem.Core.Enums
             return friendlyName;
 
         }
-        public static string GetFriendlyGroupStatusName(TransactionType groupStatus)
+        public static string GetFriendlyTransactionTypeName(TransactionType groupStatus)
         {
             string friendlyName = groupStatus switch
             {
