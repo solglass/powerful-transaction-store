@@ -28,7 +28,7 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Add DepositeOrWithdraw
         /// </summary>
-        /// <param name="transfer">Data about the extracted entity</param>
+        /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
         // https://localhost:44365/api/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
