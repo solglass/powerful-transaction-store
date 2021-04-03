@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.API", "TransactionStore.API\TransactionStore.API.csproj", "{BD8DA7B3-9119-4FE6-8F13-3B1424B95FEC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionStore.Business", "TransactionStore.Business\TransactionStore.Business.csproj", "{D40B2F9D-775C-4AC7-9C6D-06EACC46810E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7790852E-F029-478B-B786-E3E62DECDC22} = {7790852E-F029-478B-B786-E3E62DECDC22}
+	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TransactionStore.DB", "TransactionStore.DB\TransactionStore.DB.sqlproj", "{F5F30296-03B7-4AB9-B366-769924DC240C}"
 EndProject
