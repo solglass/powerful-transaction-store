@@ -9,16 +9,5 @@ namespace TransactionStore.API.Models.InputModels
     {
         public int SenderId { get; set; }
         public int RecipientId { get; set; }
-        public override int LeadId 
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }
