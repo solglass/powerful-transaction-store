@@ -18,7 +18,7 @@ namespace TransactionStore.API.Controllers
     {
         private ITransactionService _transactionService;
         private IMapper _mapper;
-        
+
         public TransactionController(IMapper mapper, ITransactionService transactionService)
         {
             _transactionService = transactionService;
@@ -52,7 +52,7 @@ namespace TransactionStore.API.Controllers
         {
             var transferDto = _mapper.Map<TransferDto>(transfer);
             _transactionService.AddTransfer(transferDto);
-            var result = _mapper.Map<TransactionOutputModel>(_transactionService.GetTransfersByLeadId(transferDto.LeadId));
+            var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransfersByLeadId(transferDto.LeadId));
             return Ok(result);
         }
 
@@ -66,14 +66,14 @@ namespace TransactionStore.API.Controllers
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("/transactions/{leadId}")]
-        public ActionResult <List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
+        public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
             var result = _mapper.Map<List<TransactionOutputModel>>(transactionDto);
             return Ok(result);
         }
         /// <summary>
-        /// Get one transfer by leadId
+        /// Get list of transfers by leadId
         /// </summary>
         /// <param name="leadId">Id of lead</param>
         /// <returns>Returns list of TransferOutputModels</returns>
@@ -85,7 +85,7 @@ namespace TransactionStore.API.Controllers
         public ActionResult<List<TransferOutputModel>> GetTransfersByLeadId(int leadId)
         {
             var transferDto = _transactionService.GetTransfersByLeadId(leadId);
-            var result = _mapper.Map<TransferOutputModel>(transferDto);
+            var result = _mapper.Map<List<TransferOutputModel>>(transferDto);
             return Ok(result);
         }
 

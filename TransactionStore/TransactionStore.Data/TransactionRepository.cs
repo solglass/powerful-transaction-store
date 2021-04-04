@@ -40,7 +40,7 @@ namespace TransactionStore.Data
                         senderId = transfer.SenderId,
                         recipientId = transfer.RecipientId,
                         amount = transfer.Amount,
-                        currency = transfer.Currency
+                        currency = (int)transfer.Currency
                     },
                     commandType: System.Data.CommandType.StoredProcedure);
             return result;
@@ -57,13 +57,7 @@ namespace TransactionStore.Data
         public List<TransferDto> GetTransfersByLeadId(int leadId)
         {
             var transfers =
-                _connection.Query<TransferDto, int, int, TransferDto>("dbo.Transaction_SelectTransferByLeadId",
-           (transfer, type, currency) =>
-           {
-               transfer.Type = (TransactionType)type;
-               transfer.Currency = (Currency)currency;
-               return transfer;
-           },
+                _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByLeadId",
             new { leadId },
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transfers;
