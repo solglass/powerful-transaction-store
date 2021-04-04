@@ -33,7 +33,6 @@ namespace TransactionStore.API.Controllers
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [HttpPost]
         [HttpPost("/depositeorwithdraw/")]
         public ActionResult<TransactionOutputModel> AddDepositeOrWithdraw([FromBody] TransactionInputModel transaction)
         {
@@ -55,7 +54,6 @@ namespace TransactionStore.API.Controllers
         // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [HttpPost]
         [HttpPost("/transfer/")]
         public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel transfer)
         {
@@ -79,14 +77,10 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
-        public ActionResult <List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("/transactions/{leadId}")]
         public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
-            var result = _mapper.Map<List<TransactionOutputModel>>(transactionDto);
             if (transactionDto is null)
                 return NotFound($"Transaction with leadId: {leadId} is not found");
 
@@ -102,8 +96,6 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("/transfers/{leadId}")]
         public ActionResult<List<TransferOutputModel>> GetTransfersByLeadId(int leadId)
         {
@@ -125,8 +117,6 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("/balance/{leadId}")]
         public ActionResult<decimal> GetBalanceByLeadId(int leadId)
         {
