@@ -18,7 +18,7 @@ namespace TransactionStore.API.Controllers
     {
         private ITransactionService _transactionService;
         private IMapper _mapper;
-        
+
         public TransactionController(IMapper mapper, ITransactionService transactionService)
         {
             _transactionService = transactionService;
@@ -30,14 +30,14 @@ namespace TransactionStore.API.Controllers
         /// </summary>
         /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
-        // https://localhost:44365/api/transaction
+        // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
-        [HttpPost]
+        [HttpPost("/depositeorwithdraw/")]
         public ActionResult<TransactionOutputModel> AddDepositeOrWithdraw([FromBody] TransactionInputModel transaction)
         {
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
             _transactionService.AddDepositeOrWithdraw(transactionDto);
-            var result = _mapper.Map<TransactionOutputModel>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
+            var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
             return Ok(result);
         }
         /// <summary>
@@ -45,19 +45,19 @@ namespace TransactionStore.API.Controllers
         /// </summary>
         /// <param name="transfer">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
-        // https://localhost:44365/api/transaction
+        // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
-        [HttpPost]
+        [HttpPost("/transfer/")]
         public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel transfer)
         {
             var transferDto = _mapper.Map<TransferDto>(transfer);
             _transactionService.AddTransfer(transferDto);
-            var result = _mapper.Map<TransactionOutputModel>(_transactionService.GetTransfersByLeadId(transferDto.LeadId));
+            var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransfersByLeadId(transferDto.LeadId));
             return Ok(result);
         }
 
         /// <summary>
-        /// Get one transaction by leadId
+        /// Get list of transactions by leadId
         /// </summary>
         /// <param name="leadId">Id of lead</param>
         /// <returns>Returns list of TransactionOutputModels</returns>
@@ -65,15 +65,15 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
-        public ActionResult <List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
+        [HttpGet("/transactions/{leadId}")]
+        public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
-            var result = _mapper.Map<TransactionOutputModel>(transactionDto);
+            var result = _mapper.Map<List<TransactionOutputModel>>(transactionDto);
             return Ok(result);
         }
         /// <summary>
-        /// Get one transfer by leadId
+        /// Get list of transfers by leadId
         /// </summary>
         /// <param name="leadId">Id of lead</param>
         /// <returns>Returns list of TransferOutputModels</returns>
@@ -81,11 +81,11 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("/transfers/{leadId}")]
         public ActionResult<List<TransferOutputModel>> GetTransfersByLeadId(int leadId)
         {
             var transferDto = _transactionService.GetTransfersByLeadId(leadId);
-            var result = _mapper.Map<TransferOutputModel>(transferDto);
+            var result = _mapper.Map<List<TransferOutputModel>>(transferDto);
             return Ok(result);
         }
 
@@ -98,7 +98,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("/balance/{leadId}")]
         public ActionResult<decimal> GetBalanceByLeadId(int leadId)
         {
             var balance = _transactionService.GetBalanceByLeadId(leadId);

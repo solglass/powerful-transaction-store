@@ -2,7 +2,7 @@
 using TransactionStore.Business;
 using TransactionStore.Data;
 
-namespace TransactionStore.Business.Config
+namespace TransactionStore.API.Config
 {
     public static class ServicesConfig
     {
