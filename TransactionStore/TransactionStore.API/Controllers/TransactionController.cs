@@ -76,6 +76,8 @@ namespace TransactionStore.API.Controllers
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("transactions/{leadId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("/transactions/{leadId}")]
         public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
