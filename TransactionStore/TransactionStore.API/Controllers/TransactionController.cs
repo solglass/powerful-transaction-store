@@ -33,7 +33,7 @@ namespace TransactionStore.API.Controllers
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [HttpPost("/depositeorwithdraw/")]
+        [HttpPost("depositeorwithdraw")]
         public ActionResult<TransactionOutputModel> AddDepositeOrWithdraw([FromBody] TransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
