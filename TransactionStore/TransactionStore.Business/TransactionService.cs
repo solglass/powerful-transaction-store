@@ -18,6 +18,6 @@ namespace TransactionStore.Business
         public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
         public List<TransactionDto> GetTransactionsByLeadId(int leadId) => _transactionRepository.GetTransactionsByLeadId(leadId);
         public List<TransferDto> GetTransfersByLeadId(int leadId) => _transactionRepository.GetTransfersByLeadId(leadId);
-        public decimal GetBalanceByLeadId(int leadId) => _transactionRepository.GetBalanceByLeadId(leadId);
+        public List<LeadBalanceDto> GetBalanceByLeadId(int leadId) => _transactionRepository.GetBalanceByLeadId(leadId);
     }
 }

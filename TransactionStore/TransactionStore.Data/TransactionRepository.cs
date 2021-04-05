@@ -48,9 +48,9 @@ namespace TransactionStore.Data
 
         public List<TransactionDto> GetTransactionsByLeadId(int leadId)
         {
-            var transactions = 
+            var transactions =
                 _connection.Query<TransactionDto>("dbo.Transaction_SelectByLeadId",
-            new { leadId }, 
+            new { leadId },
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transactions;
         }
@@ -62,15 +62,16 @@ namespace TransactionStore.Data
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transfers;
         }
-        public decimal GetBalanceByLeadId(int leadId)
+        public List<LeadBalanceDto> GetBalanceByLeadId(int leadId)
         {
             var result = _connection
-                    .QuerySingle<decimal>("dbo.Transaction_GetBalanceByLeadId",
+                    .Query<LeadBalanceDto>("dbo.Transaction_GetBalanceByLeadId",
                     new
                     {
                         leadId = leadId
                     },
-                    commandType: System.Data.CommandType.StoredProcedure);
+                    commandType: System.Data.CommandType.StoredProcedure
+                    ).ToList();
             return result;
         }
     }

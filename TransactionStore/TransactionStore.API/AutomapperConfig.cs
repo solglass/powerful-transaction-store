@@ -11,15 +11,13 @@ namespace TransactionStore.API
         public AutomapperConfig()
         {
             CreateMap<TransactionDto, TransactionOutputModel>()
-                .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyCurrencyName(src.Currency)))
                 .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)));
             CreateMap<TransactionInputModel, TransactionDto>();
 
             CreateMap<TransferDto, TransferOutputModel>();
             CreateMap<TransferInputModel, TransferDto>();
 
-            CreateMap<LeadBalanceDto, LeadBalanceOutputModel>()
-                .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyCurrencyName(src.Currency)));
+            CreateMap<LeadBalanceDto, LeadBalanceOutputModel>();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace TransactionStore.Data
         int AddTransfer(TransferDto dto);
         List<TransactionDto> GetTransactionsByLeadId(int leadId);
         List<TransferDto> GetTransfersByLeadId(int leadId);
-        decimal GetBalanceByLeadId(int leadId);
+        List<LeadBalanceDto> GetBalanceByLeadId(int leadId);
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
+using TransactionStore.API.Models.OutputModels;
 using TransactionStore.Business;
 using TransactionStore.Core.Models;
 
@@ -116,18 +117,16 @@ namespace TransactionStore.API.Controllers
         /// <param name="leadId">Id of lead</param>
         /// <returns>balance in decimal</returns>
         // https://localhost:44365/api/transaction/42
-        [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<LeadBalanceOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("balance/{leadId}")]
-        public ActionResult<decimal> GetBalanceByLeadId(int leadId)
+        public ActionResult<List<LeadBalanceOutputModel>> GetBalanceByLeadId(int leadId)
         {
-            var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
-            if (transactionDto is null)
-                return NotFound($"Transaction with leadId: {leadId} is not found");
-
             var balance = _transactionService.GetBalanceByLeadId(leadId);
-            return Ok(balance);
+
+            var result = _mapper.Map<List<LeadBalanceOutputModel>>(balance);
+            return Ok(result);
         }
     }
 }

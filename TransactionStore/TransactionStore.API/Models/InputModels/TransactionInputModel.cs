@@ -16,11 +16,11 @@ namespace TransactionStore.API.Models.InputModels
         [Required]
         public decimal Amount { get; set; }
         public Currency Currency {get; set; }
+        
         [Required]
-        public int Type { get; set; }
-        [Required]
-        [CustomDateTimeValidation]
-        public DateTime Timestamp { get; set; }
+        [Range(1, 2)]
+        //ToDO MUST BE GONE 
+        public TransactionType Type { get; set; }
 
 
     }
