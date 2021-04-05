@@ -54,7 +54,7 @@ namespace TransactionStore.API.Controllers
         // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [HttpPost("/transfer/")]
+        [HttpPost("transfer")]
         public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel transfer)
         {
             if (!ModelState.IsValid)
@@ -79,7 +79,7 @@ namespace TransactionStore.API.Controllers
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("transactions/{leadId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("/transactions/{leadId}")]
+        [HttpGet("transactions/{leadId}")]
         public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
@@ -98,7 +98,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransferOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("/transfers/{leadId}")]
+        [HttpGet("transfers/{leadId}")]
         public ActionResult<List<TransferOutputModel>> GetTransfersByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
@@ -119,7 +119,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(decimal), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("/balance/{leadId}")]
+        [HttpGet("balance/{leadId}")]
         public ActionResult<decimal> GetBalanceByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
