@@ -3,8 +3,8 @@
 as
 begin
 select
-	SUM (t.Amount)
+	SUM (t.Amount) as Amount, t.Currency
 	from [dbo].[Transaction] t
 	where t.LeadId = @leadId
-	group by t.LeadId
+	group by t.Currency
 end
