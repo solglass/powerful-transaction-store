@@ -16,12 +16,5 @@ namespace TransactionStore.API.Models.InputModels
         [Required]
         public decimal Amount { get; set; }
         public Currency Currency {get; set; }
-        
-        [Required]
-        [Range(1, 2)]
-        //ToDO MUST BE GONE 
-        public TransactionType Type { get; set; }
-
-
     }
 }

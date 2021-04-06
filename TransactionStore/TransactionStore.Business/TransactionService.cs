@@ -2,6 +2,7 @@
 using TransactionStore.Data;
 using TransactionStore.Core.Models;
 using System.Collections.Generic;
+using EducationSystem.Core.Enums;
 
 namespace TransactionStore.Business
 {
@@ -14,7 +15,16 @@ namespace TransactionStore.Business
             _transactionRepository = transactionRepository;
         }
 
-        public int AddDepositeOrWithdraw(TransactionDto transaction) => _transactionRepository.AddDepositeOrWithdraw(transaction);
+        public int AddDeposite(TransactionDto transaction)
+        {
+            transaction.Type = (TransactionType)1;
+            return _transactionRepository.AddDepositeOrWithdraw(transaction);
+        }
+        public int AddWithdraw(TransactionDto transaction)
+        {
+            transaction.Type = (TransactionType)2;
+            return _transactionRepository.AddDepositeOrWithdraw(transaction);
+        }
         public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
         public List<TransactionDto> GetTransactionsByLeadId(int leadId) => _transactionRepository.GetTransactionsByLeadId(leadId);
         public List<TransferDto> GetTransfersByLeadId(int leadId) => _transactionRepository.GetTransfersByLeadId(leadId);
