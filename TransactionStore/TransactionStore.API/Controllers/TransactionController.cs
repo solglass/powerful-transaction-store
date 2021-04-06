@@ -27,15 +27,36 @@ namespace TransactionStore.API.Controllers
         }
 
         /// <summary>
-        /// Add DepositeOrWithdraw
+        /// Add Deposite
         /// </summary>
         /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [HttpPost("depositeorwithdraw")]
-        public ActionResult<TransactionOutputModel> AddDepositeOrWithdraw([FromBody] TransactionInputModel transaction)
+        [HttpPost("Deposite")]
+        public ActionResult<TransactionOutputModel> AddDeposite([FromBody] TransactionInputModel transaction)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Conflict();
+            }
+
+            var transactionDto = _mapper.Map<TransactionDto>(transaction);
+            _transactionService.AddDepositeOrWithdraw(transactionDto);
+            var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
+            return Ok(result);
+        }
+        /// <summary>
+        /// Add Withdraw
+        /// </summary>
+        /// <param name="transaction">Data about the extracted entity</param>
+        /// <returns>Returns TransactionOutputModel</returns>
+        // https://localhost:44365/api/dw/transaction
+        [ProducesResponseType(typeof(TransactionOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [HttpPost("Withdraw")]
+        public ActionResult<TransactionOutputModel> AddWithdraw([FromBody] TransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
             {
