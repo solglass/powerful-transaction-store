@@ -41,7 +41,6 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
-
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
             _transactionService.AddDeposite(transactionDto);
             var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
@@ -62,7 +61,6 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
-
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
             _transactionService.AddWithdraw(transactionDto);
             var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
@@ -83,7 +81,6 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
-
             var transferDto = _mapper.Map<TransferDto>(transfer);
             _transactionService.AddTransfer(transferDto);
             var result = _mapper.Map<List<TransactionOutputModel>>(_transactionService.GetTransfersByLeadId(transferDto.LeadId));
