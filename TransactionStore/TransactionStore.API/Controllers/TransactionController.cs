@@ -101,14 +101,13 @@ namespace TransactionStore.API.Controllers
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("transactions/{leadId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("transactions/{leadId}")]
         public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
             var transactionDto = _transactionService.GetTransactionsByLeadId(leadId);
             if (transactionDto is null)
                 return NotFound($"Transaction with leadId: {leadId} is not found");
 
-            var result = _mapper.Map<TransactionOutputModel>(transactionDto);
+            var result = _mapper.Map<List<TransactionOutputModel>>(transactionDto);
             return Ok(result);
         }
         /// <summary>
