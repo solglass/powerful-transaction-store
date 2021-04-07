@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TransactionStore.API.Attributes;
 
 namespace TransactionStore.API.Models.InputModels
 {
-    public class TransferInputModel : BaseTransactionInputModel
+    public class BaseTransactionInputModel
     {
         [Required]
-        [Range(1, int.MaxValue)]
-        public int SenderId { get; set; }
+        public decimal Amount { get; set; }
         [Required]
-        [Range(1, int.MaxValue)]
-        public int RecipientId { get; set; }
+        [CustomCurrencyPairValidation]
+        public string CurrencyPair { get; set; }
     }
 }

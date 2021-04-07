@@ -11,17 +11,19 @@ namespace TransactionStore.API
     {
         public AutomapperConfig()
         {
-            CreateMap<TransactionDto, TransactionOutputModel>()
+            CreateMap<SimpleTransactionDto, SimpleTransactionOutputModel>()
                 .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)));
-            CreateMap<TransactionInputModel, TransactionDto>()
+            CreateMap<SimpleTransactionInputModel, SimpleTransactionDto>()
             .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => (Currency)Converters.CurrencyPairToCurrency(src.CurrencyPair)))
             .ForMember(dest => dest.Amount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.CurrencyPair, src.Amount)));
 
-            CreateMap<TransferDto, TransferOutputModel>();
+            CreateMap<TransferDto, TransferOutputModel>()
+                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)));
             CreateMap<TransferInputModel, TransferDto>()
             .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => (Currency)Converters.CurrencyPairToCurrency(src.CurrencyPair)))
             .ForMember(dest => dest.Amount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.CurrencyPair, src.Amount)));
 
+            CreateMap<BaseTransactionDto, BaseTransactionOutputModel>().Include<SimpleTransactionDto, SimpleTransactionOutputModel>().Include<TransferDto, TransferOutputModel>();
             CreateMap<LeadBalanceDto, LeadBalanceOutputModel>();
         }
     }

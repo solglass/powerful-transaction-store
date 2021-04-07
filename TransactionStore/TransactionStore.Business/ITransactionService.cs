@@ -7,11 +7,10 @@ namespace TransactionStore.Business
 {
     public interface ITransactionService
     {
-        int AddDeposite(TransactionDto dto);
-        int AddWithdraw(TransactionDto dto);
+        int AddDeposite(SimpleTransactionDto dto);
+        int AddWithdraw(SimpleTransactionDto dto);
         int AddTransfer(TransferDto dto);
-        List<TransactionDto> GetTransactionsByLeadId(int leadId);
-        List<TransferDto> GetTransfersByLeadId(int leadId);
+        List<BaseTransactionDto> GetTransactionsByLeadId(int leadId);
         List <LeadBalanceDto> GetBalanceByLeadId(int leadId);
     }
 }

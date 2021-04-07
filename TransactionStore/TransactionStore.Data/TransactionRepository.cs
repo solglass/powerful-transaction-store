@@ -16,7 +16,7 @@ namespace TransactionStore.Data
             _connection = new SqlConnection(_connectionString);
         }
 
-        public int AddDepositeOrWithdraw(TransactionDto transaction)
+        public int AddDepositeOrWithdraw(SimpleTransactionDto transaction)
         {
             var result = _connection
                      .QuerySingle<int>("dbo.Transaction_AddDepositOrWithdraw",
@@ -46,11 +46,11 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public List<TransactionDto> GetTransactionsByLeadId(int leadId)
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId, int type)
         {
             var transactions =
-                _connection.Query<TransactionDto>("dbo.Transaction_SelectByLeadId",
-            new { leadId },
+                _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByLeadId",
+            new { leadId},
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transactions;
         }
@@ -58,9 +58,11 @@ namespace TransactionStore.Data
         {
             var transfers =
                 _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByLeadId",
-            new { leadId },
-            commandType: System.Data.CommandType.StoredProcedure).ToList();
+                new { leadId },
+                commandType: System.Data.CommandType.StoredProcedure).ToList();
+            transfers = transfers.ConvertAll(x => { x.Type = TransactionType.Transfer; return x; });
             return transfers;
+
         }
         public List<LeadBalanceDto> GetBalanceByLeadId(int leadId)
         {

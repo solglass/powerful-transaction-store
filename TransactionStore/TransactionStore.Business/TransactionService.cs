@@ -15,19 +15,28 @@ namespace TransactionStore.Business
             _transactionRepository = transactionRepository;
         }
 
-        public int AddDeposite(TransactionDto transaction)
+        public int AddDeposite(SimpleTransactionDto transaction)
         {
             transaction.Type = (TransactionType)1;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
-        public int AddWithdraw(TransactionDto transaction)
+        public int AddWithdraw(SimpleTransactionDto transaction)
         {
             transaction.Type = (TransactionType)2;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
         public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
-        public List<TransactionDto> GetTransactionsByLeadId(int leadId) => _transactionRepository.GetTransactionsByLeadId(leadId);
-        public List<TransferDto> GetTransfersByLeadId(int leadId) => _transactionRepository.GetTransfersByLeadId(leadId);
+        public List<BaseTransactionDto> GetTransactionsByLeadId(int leadId)
+        {
+            var result = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId, 1).ConvertAll(x => (BaseTransactionDto)x);
+            var withdrawTransactionDto = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId, 1).ConvertAll(x => (BaseTransactionDto)x);
+            var transfersTransactionDto = _transactionRepository.GetTransfersByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
+
+            result.AddRange(withdrawTransactionDto);
+            result.AddRange(transfersTransactionDto);
+            return result;
+        }
+       
         public List<LeadBalanceDto> GetBalanceByLeadId(int leadId) => _transactionRepository.GetBalanceByLeadId(leadId);
     }
 }

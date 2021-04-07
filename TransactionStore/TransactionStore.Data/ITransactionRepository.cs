@@ -6,9 +6,9 @@ namespace TransactionStore.Data
 {
     public interface ITransactionRepository
     {
-        int AddDepositeOrWithdraw(TransactionDto dto);
+        int AddDepositeOrWithdraw(SimpleTransactionDto dto);
         int AddTransfer(TransferDto dto);
-        List<TransactionDto> GetTransactionsByLeadId(int leadId);
+        List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId, int type);
         List<TransferDto> GetTransfersByLeadId(int leadId);
         List<LeadBalanceDto> GetBalanceByLeadId(int leadId);
     }
