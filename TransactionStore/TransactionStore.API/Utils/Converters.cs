@@ -22,11 +22,8 @@ namespace TransactionStore.API.Utils
         }
         public static decimal ConvertAmount(string inputCurrencyPair, decimal amount)
         {
-            if (Quotes.CurrencyPairs.TryGetValue(inputCurrencyPair, out decimal value))
-            {
-                return amount * value;
-            }
-            return amount;
+            Quotes.CurrencyPairs.TryGetValue(inputCurrencyPair, out decimal value);
+            return amount * value;
         }
     }
 }

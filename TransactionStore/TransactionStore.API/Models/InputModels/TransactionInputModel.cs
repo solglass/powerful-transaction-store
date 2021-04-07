@@ -15,6 +15,8 @@ namespace TransactionStore.API.Models.InputModels
         public int LeadId { get; set; }
         [Required]
         public decimal Amount { get; set; }
+        [Required]
+        [CustomCurrencyPairValidation]
         public string CurrencyPair {get; set; }
     }
 }
