@@ -99,7 +99,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(List<TransactionOutputModel>), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("transactions/{leadId}")]
+        [HttpGet("{leadId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<TransactionOutputModel>> GetTransactionsByLeadId(int leadId)
         {
