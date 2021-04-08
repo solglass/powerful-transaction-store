@@ -31,16 +31,18 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public int AddTransfer(TransferDto transfer)
+        public (int, int) AddTransfer(TransferDto transfer)
         {
             var result = _connection
-                    .QuerySingle<int>("dbo.Transaction_AddTransfer",
+                    .QueryFirstOrDefault<(int, int)>("dbo.Transaction_AddTransfer",
                     new
                     {
                         senderId = transfer.SenderId,
                         recipientId = transfer.RecipientId,
-                        amount = transfer.Amount,
-                        currency = (int)transfer.Currency
+                        senderAmount = transfer.SenderAmount,
+                        recipientAmount = transfer.RecipientAmount,
+                        senderСurrency = transfer.SenderCurrency,
+                        recipientСurrency = transfer.RecipientCurrency
                     },
                     commandType: System.Data.CommandType.StoredProcedure);
             return result;

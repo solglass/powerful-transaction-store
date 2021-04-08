@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationSystem.Core.Enums;
+using System;
 using TransactionStore.Core.Models;
 
 namespace TransactionStore.Core.Models
@@ -7,5 +8,9 @@ namespace TransactionStore.Core.Models
     {
         public int SenderId { get; set; }
         public int RecipientId { get; set; }
+        public decimal SenderAmount { get; set; }
+        public decimal RecipientAmount { get; set; }
+        public Currency SenderCurrency { get; set; }
+        public Currency RecipientCurrency { get; set; }
     }
 }

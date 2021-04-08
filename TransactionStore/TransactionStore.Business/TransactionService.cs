@@ -25,7 +25,7 @@ namespace TransactionStore.Business
             transaction.Type = (TransactionType)2;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
-        public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
+        public (int, int) AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
         public List<BaseTransactionDto> GetTransactionsByLeadId(int leadId)
         {
             var result = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId, 1).ConvertAll(x => (BaseTransactionDto)x);
