@@ -105,8 +105,6 @@ namespace TransactionStore.API.Controllers
         public ActionResult<string> GetTransactionsByLeadId(int leadId)
         {
             var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(leadId));
-
-            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
 
             return Ok(serialized);
