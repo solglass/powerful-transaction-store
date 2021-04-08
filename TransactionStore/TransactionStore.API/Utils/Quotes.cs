@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 namespace TransactionStore.API.Utils
 {
     public class Quotes
@@ -13,12 +9,13 @@ namespace TransactionStore.API.Utils
             {
                 return new Dictionary<string, decimal>
                 {
-                    ["RUB/RUB"] = 1, ["USD/RUB"] = 75,               ["EUR/RUB"] = 100,                 ["JPY/RUB"] = (decimal)0.7 ,
-                    ["USD/USD"] = 1, ["RUB/USD"] = (decimal)0.01333, ["EUR/USD"] = (decimal)1.33333,    ["JPY/USD"] = (decimal)0.00933,
-                    ["EUR/EUR"] = 1, ["RUB/EUR"] = (decimal)0.01,    ["USD/EUR"] = (decimal)0.75,       ["JPY/EUR"] = (decimal)0.007,
-                    ["JPY/JPY"] = 1, ["RUB/JPY"] = (decimal)1.42857, ["USD/JPY"] = (decimal)107.14286,  ["EUR/JPY"] = (decimal)142.85714
+                    ["RUBRUB"] = 1, ["USDRUB"] = 75,               ["EURRUB"] = 100,                 ["JPYRUB"] = (decimal)0.7 ,
+                    ["USDUSD"] = 1, ["RUBUSD"] = (decimal)0.01333, ["EURUSD"] = (decimal)1.33333,    ["JPYUSD"] = (decimal)0.00933,
+                    ["EUREUR"] = 1, ["RUBEUR"] = (decimal)0.01,    ["USDEUR"] = (decimal)0.75,       ["JPYEUR"] = (decimal)0.007,
+                    ["JPYJPY"] = 1, ["RUBJPY"] = (decimal)1.42857, ["USDJPY"] = (decimal)107.14286,  ["EURJPY"] = (decimal)142.85714
                 };
             }
         }
+        
     }
 }

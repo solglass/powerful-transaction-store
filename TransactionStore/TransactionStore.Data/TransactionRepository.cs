@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using TransactionStore.Core.Settings;
 using TransactionStore.Core.Models;
 using Dapper;
-using EducationSystem.Core.Enums;
 using System.Linq;
 
 namespace TransactionStore.Data
@@ -16,7 +15,7 @@ namespace TransactionStore.Data
             _connection = new SqlConnection(_connectionString);
         }
 
-        public int AddDepositeOrWithdraw(TransactionDto transaction)
+        public int AddDepositeOrWithdraw(SimpleTransactionDto transaction)
         {
             var result = _connection
                      .QuerySingle<int>("dbo.Transaction_AddDepositOrWithdraw",
@@ -31,26 +30,28 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public int AddTransfer(TransferDto transfer)
+        public (int, int) AddTransfer(TransferDto transfer)
         {
             var result = _connection
-                    .QuerySingle<int>("dbo.Transaction_AddTransfer",
+                    .QueryFirstOrDefault<(int, int)>("dbo.Transaction_AddTransfer",
                     new
                     {
                         senderId = transfer.SenderId,
                         recipientId = transfer.RecipientId,
-                        amount = transfer.Amount,
-                        currency = (int)transfer.Currency
+                        senderAmount = transfer.SenderAmount,
+                        recipientAmount = transfer.RecipientAmount,
+                        senderСurrency = transfer.SenderCurrency,
+                        recipientСurrency = transfer.RecipientCurrency
                     },
                     commandType: System.Data.CommandType.StoredProcedure);
             return result;
         }
 
-        public List<TransactionDto> GetTransactionsByLeadId(int leadId)
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId)
         {
             var transactions =
-                _connection.Query<TransactionDto>("dbo.Transaction_SelectByLeadId",
-            new { leadId },
+                _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByLeadId",
+            new { leadId},
             commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transactions;
         }
@@ -58,9 +59,10 @@ namespace TransactionStore.Data
         {
             var transfers =
                 _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByLeadId",
-            new { leadId },
-            commandType: System.Data.CommandType.StoredProcedure).ToList();
+                new { leadId },
+                commandType: System.Data.CommandType.StoredProcedure).ToList();
             return transfers;
+
         }
         public List<LeadBalanceDto> GetBalanceByLeadId(int leadId)
         {

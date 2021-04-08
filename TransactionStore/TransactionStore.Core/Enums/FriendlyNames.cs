@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationSystem.Core.Enums
+﻿namespace EducationSystem.Core.Enums
 {
     public static class FriendlyNames
     {

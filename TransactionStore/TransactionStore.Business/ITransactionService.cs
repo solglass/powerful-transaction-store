@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using TransactionStore.Core.Models;
 
 namespace TransactionStore.Business
 {
     public interface ITransactionService
     {
-        int AddDeposite(TransactionDto dto);
-        int AddWithdraw(TransactionDto dto);
-        int AddTransfer(TransferDto dto);
-        List<TransactionDto> GetTransactionsByLeadId(int leadId);
-        List<TransferDto> GetTransfersByLeadId(int leadId);
+        int AddDeposite(SimpleTransactionDto dto);
+        int AddWithdraw(SimpleTransactionDto dto);
+        (int, int) AddTransfer(TransferDto dto);
+        List<BaseTransactionDto> GetTransactionsByLeadId(int leadId);
         List <LeadBalanceDto> GetBalanceByLeadId(int leadId);
     }
 }

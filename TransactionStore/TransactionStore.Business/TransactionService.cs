@@ -1,5 +1,4 @@
-﻿using System;
-using TransactionStore.Data;
+﻿using TransactionStore.Data;
 using TransactionStore.Core.Models;
 using System.Collections.Generic;
 using EducationSystem.Core.Enums;
@@ -15,19 +14,27 @@ namespace TransactionStore.Business
             _transactionRepository = transactionRepository;
         }
 
-        public int AddDeposite(TransactionDto transaction)
+        public int AddDeposite(SimpleTransactionDto transaction)
         {
             transaction.Type = (TransactionType)1;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
-        public int AddWithdraw(TransactionDto transaction)
+        public int AddWithdraw(SimpleTransactionDto transaction)
         {
             transaction.Type = (TransactionType)2;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
-        public int AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
-        public List<TransactionDto> GetTransactionsByLeadId(int leadId) => _transactionRepository.GetTransactionsByLeadId(leadId);
-        public List<TransferDto> GetTransfersByLeadId(int leadId) => _transactionRepository.GetTransfersByLeadId(leadId);
+        public (int, int) AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
+        public List<BaseTransactionDto> GetTransactionsByLeadId(int leadId)
+        {
+            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
+            var transfers = _transactionRepository.GetTransfersByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
+            var transactions = new List<BaseTransactionDto>();
+            transactions.AddRange(depositesOrWithdraws);
+            transactions.AddRange(transfers);
+            return transactions;
+        }
+       
         public List<LeadBalanceDto> GetBalanceByLeadId(int leadId) => _transactionRepository.GetBalanceByLeadId(leadId);
     }
 }

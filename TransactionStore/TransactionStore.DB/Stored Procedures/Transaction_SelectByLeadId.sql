@@ -4,11 +4,11 @@ as
 begin
 select 
 	t.Id,
-	t.Timestamp,
 	t.LeadId,
 	t.Amount,
 	t.Currency,
-	t.[Type]
+	t.[Type],
+	t.Timestamp
 	from [dbo].[Transaction] t
-	where t.LeadId = @leadId
+	where t.LeadId = @leadId and (t.Type = 1 or t.Type = 2)
 end
