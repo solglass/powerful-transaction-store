@@ -8,7 +8,8 @@ namespace TransactionStore.API.Attributes
     {
         public override bool IsValid(object value)
         {
-            return Quotes.CurrencyPairs.ContainsKey((string)value);
+            string currancyPair = (string)value;
+            return Quotes.Currency.ContainsKey(currancyPair.Substring(0, 3)) && Quotes.Currency.ContainsKey(currancyPair.Substring(3, 3));
         }
     }
 }

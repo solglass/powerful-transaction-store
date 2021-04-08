@@ -27,7 +27,7 @@ namespace TransactionStore.API.Controllers
         /// Add Deposite
         /// </summary>
         /// <param name="transaction">Data about the extracted entity</param>
-        /// <returns>Returns TransactionOutputModel</returns>
+        /// <returns>Returns Id of added deposite</returns>
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -46,7 +46,7 @@ namespace TransactionStore.API.Controllers
         /// Add Withdraw
         /// </summary>
         /// <param name="transaction">Data about the extracted entity</param>
-        /// <returns>Returns TransactionOutputModel</returns>
+        /// <returns>Returns Id of added withdraw</returns>
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -65,7 +65,7 @@ namespace TransactionStore.API.Controllers
         /// Add Transfer
         /// </summary>
         /// <param name="transfer">Data about the extracted entity</param>
-        /// <returns>Returns TransactionOutputModel</returns>
+        /// <returns>Returns Ids of added transfers</returns>
         // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
