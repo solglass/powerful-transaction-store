@@ -1,35 +1,23 @@
-﻿namespace TransactionStore.API.Utils
+﻿using EducationSystem.Core.Enums;
+using System;
+
+namespace TransactionStore.API.Utils
 {
     public class Converters
     {
-       public static int SenderCurrencyPairToCurrency(string inputCurrencyPair)
+       public static Currency SenderCurrencyPairToCurrency(string inputCurrencyPair)
         {
-            int currency = inputCurrencyPair switch
-            {
-                "RUBRUB" => 1, "USDRUB" => 2, "EURRUB" => 3, "JPYRUB" => 4,
-                "USDUSD" => 2, "RUBUSD" => 1, "EURUSD" => 3, "JPYUSD" => 4,
-                "EUREUR" => 3, "RUBEUR" => 1, "USDEUR" => 2, "JPYEUR" => 4,
-                "JPYJPY" => 4, "RUBJPY" => 1, "USDJPY" => 2, "EURJPY" => 3,
-                _ => 0
-            };
-            return currency;
+            return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(0, 3));
         }
-        public static int RecipientCurrencyPairToCurrency(string inputCurrencyPair)
+        public static Currency RecipientCurrencyPairToCurrency(string inputCurrencyPair)
         {
-            int currency = inputCurrencyPair switch
-            {
-                "RUBRUB" => 1, "USDRUB" => 1, "EURRUB" => 1, "JPYRUB" => 1,
-                "USDUSD" => 2, "RUBUSD" => 2, "EURUSD" => 2, "JPYUSD" => 2,
-                "EUREUR" => 3, "RUBEUR" => 3, "USDEUR" => 3, "JPYEUR" => 3,
-                "JPYJPY" => 4, "RUBJPY" => 4, "USDJPY" => 4, "EURJPY" => 4,
-                _ => 0
-            };
-            return currency;
+            return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(3, 3));
         }
         public static decimal ConvertAmount(string inputCurrencyPair, decimal amount)
         {
-            Quotes.CurrencyPairs.TryGetValue(inputCurrencyPair, out decimal value);
-            return amount * value;
+            Quotes.Currency.TryGetValue(inputCurrencyPair.Substring(0, 3), out decimal senderAmount);
+            Quotes.Currency.TryGetValue(inputCurrencyPair.Substring(3, 3), out decimal recipientAmount);
+            return senderAmount / recipientAmount * amount;
         }
     }
 }
