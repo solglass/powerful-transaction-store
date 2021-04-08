@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
 using TransactionStore.Business;
@@ -22,7 +16,6 @@ namespace TransactionStore.API.Controllers
     {
         private ITransactionService _transactionService;
         private IMapper _mapper;
-        private TextWriter weatherForecast;
 
         public TransactionController(IMapper mapper, ITransactionService transactionService)
         {
@@ -36,19 +29,18 @@ namespace TransactionStore.API.Controllers
         /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
         // https://localhost:44365/api/dw/transaction
-        [ProducesResponseType(typeof(SimpleTransactionOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("deposite")]
-        public ActionResult<SimpleTransactionOutputModel> AddDeposite([FromBody] SimpleTransactionInputModel transaction)
+        public ActionResult<int> AddDeposite([FromBody] SimpleTransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            _transactionService.AddDeposite(transactionDto);
-            var result = _mapper.Map<List<SimpleTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
-            return Ok(result);
+            var transactionId = _transactionService.AddDeposite(transactionDto);
+            return Ok(transactionId);
         }
         /// <summary>
         /// Add Withdraw
@@ -56,19 +48,18 @@ namespace TransactionStore.API.Controllers
         /// <param name="transaction">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
         // https://localhost:44365/api/dw/transaction
-        [ProducesResponseType(typeof(SimpleTransactionOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("withdraw")]
-        public ActionResult<SimpleTransactionOutputModel> AddWithdraw([FromBody] SimpleTransactionInputModel transaction)
+        public ActionResult<int> AddWithdraw([FromBody] SimpleTransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            _transactionService.AddWithdraw(transactionDto);
-            var result = _mapper.Map<List<SimpleTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transactionDto.LeadId));
-            return Ok(result);
+            var transactionId = _transactionService.AddWithdraw(transactionDto);
+            return Ok(transactionId);
         }
         /// <summary>
         /// Add Transfer
@@ -76,19 +67,19 @@ namespace TransactionStore.API.Controllers
         /// <param name="transfer">Data about the extracted entity</param>
         /// <returns>Returns TransactionOutputModel</returns>
         // https://localhost:44365/api//tr/transaction
-        [ProducesResponseType(typeof(SimpleTransactionOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("transfer")]
-        public ActionResult<TransferOutputModel> AddTransfer([FromBody] TransferInputModel transfer)
+        public ActionResult<string> AddTransfer([FromBody] TransferInputModel transfer)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
             var transferDto = _mapper.Map<TransferDto>(transfer);
-            _transactionService.AddTransfer(transferDto);
-            var result = _mapper.Map<List<SimpleTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(transferDto.SenderId));
-            return Ok(result);
+            var transferIds = _transactionService.AddTransfer(transferDto);
+            string serialized = JsonConvert.SerializeObject(transferIds, Formatting.Indented);
+            return Ok(serialized);
         }
 
         /// <summary>
@@ -118,13 +109,11 @@ namespace TransactionStore.API.Controllers
         /// <returns>balance in decimal</returns>
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(List<LeadBalanceOutputModel>), StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("balance/{leadId}")]
         public ActionResult<List<LeadBalanceOutputModel>> GetBalanceByLeadId(int leadId)
         {
             var balance = _transactionService.GetBalanceByLeadId(leadId);
-
             var result = _mapper.Map<List<LeadBalanceOutputModel>>(balance);
             return Ok(result);
         }

@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using TransactionStore.Core.Settings;
 using TransactionStore.Core.Models;
 using Dapper;
-using EducationSystem.Core.Enums;
 using System.Linq;
 
 namespace TransactionStore.Data
@@ -48,7 +47,7 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId, int type)
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId)
         {
             var transactions =
                 _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByLeadId",
@@ -62,7 +61,6 @@ namespace TransactionStore.Data
                 _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByLeadId",
                 new { leadId },
                 commandType: System.Data.CommandType.StoredProcedure).ToList();
-            transfers = transfers.ConvertAll(x => { x.Type = TransactionType.Transfer; return x; });
             return transfers;
 
         }

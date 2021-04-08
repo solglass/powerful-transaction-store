@@ -1,5 +1,4 @@
-﻿using System;
-using TransactionStore.Data;
+﻿using TransactionStore.Data;
 using TransactionStore.Core.Models;
 using System.Collections.Generic;
 using EducationSystem.Core.Enums;
@@ -28,13 +27,12 @@ namespace TransactionStore.Business
         public (int, int) AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
         public List<BaseTransactionDto> GetTransactionsByLeadId(int leadId)
         {
-            var result = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId, 1).ConvertAll(x => (BaseTransactionDto)x);
-            var withdrawTransactionDto = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId, 1).ConvertAll(x => (BaseTransactionDto)x);
-            var transfersTransactionDto = _transactionRepository.GetTransfersByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
-
-            result.AddRange(withdrawTransactionDto);
-            result.AddRange(transfersTransactionDto);
-            return result;
+            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
+            var transfers = _transactionRepository.GetTransfersByLeadId(leadId).ConvertAll(x => (BaseTransactionDto)x);
+            var transactions = new List<BaseTransactionDto>();
+            transactions.AddRange(depositesOrWithdraws);
+            transactions.AddRange(transfers);
+            return transactions;
         }
        
         public List<LeadBalanceDto> GetBalanceByLeadId(int leadId) => _transactionRepository.GetBalanceByLeadId(leadId);
