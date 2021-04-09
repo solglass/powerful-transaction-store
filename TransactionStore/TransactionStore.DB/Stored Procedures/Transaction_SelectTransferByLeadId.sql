@@ -13,7 +13,7 @@ select
 	t.Amount,
 	t.Currency
 	from [dbo].[Transaction] t
-	where t.LeadId = @leadId and t.Amount < 0
+	where t.LeadId = @leadId and t.Amount < 0 and t.Type = 3
 union all
 	select 
 	t.Id,
@@ -26,5 +26,5 @@ union all
 	t.Amount,
 	t.Currency
 	from [dbo].[Transaction] t
-	where t.LeadId = @leadId and t.Amount > 0
+	where t.LeadId = @leadId and t.Amount > 0 and t.Type = 3
 end
