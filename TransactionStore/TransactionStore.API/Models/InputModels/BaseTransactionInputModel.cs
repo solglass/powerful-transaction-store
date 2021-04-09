@@ -3,7 +3,7 @@ using TransactionStore.API.Attributes;
 
 namespace TransactionStore.API.Models.InputModels
 {
-    public class BaseTransactionInputModel
+    public abstract class BaseTransactionInputModel
     {
         [Required]
         public decimal Amount { get; set; }

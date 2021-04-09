@@ -9,10 +9,10 @@ namespace TransactionStore.API.Utils
             {
                 return new Dictionary<string, decimal>
                 {
-                    ["RUB"] = 1, 
-                    ["USD"] = 75,               
-                    ["EUR"] = 90,                 
-                    ["JPY"] = (decimal)0.7 ,
+                    ["USDUSD"] = 1, 
+                    ["RUBUSD"] = (decimal)0.0133333,               
+                    ["EURUSD"] = (decimal)1.2,                 
+                    ["JPYUSD"] = (decimal)0.7 ,
                 };
             }
         }
