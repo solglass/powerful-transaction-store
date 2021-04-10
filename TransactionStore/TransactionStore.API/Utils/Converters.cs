@@ -15,8 +15,8 @@ namespace TransactionStore.API.Utils
         }
         public static decimal ConvertAmount(string inputCurrencyPair, decimal amount)
         {
-            Quotes.Currency.TryGetValue(inputCurrencyPair.Substring(0, 3), out decimal senderAmount);
-            Quotes.Currency.TryGetValue(inputCurrencyPair.Substring(3, 3), out decimal recipientAmount);
+            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(0, 3) + Quotes.baseCurrency, out decimal senderAmount);
+            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(3, 3) + Quotes.baseCurrency, out decimal recipientAmount);
             return senderAmount / recipientAmount * amount;
         }
     }
