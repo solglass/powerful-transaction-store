@@ -9,7 +9,9 @@ namespace TransactionStore.API.Attributes
         public override bool IsValid(object value)
         {
             string currancyPair = (string)value;
-            return Quotes.Currency.ContainsKey(currancyPair.Substring(0, 3)) && Quotes.Currency.ContainsKey(currancyPair.Substring(3, 3));
+            return currancyPair.Length == 6
+                && Quotes.CurrencyPair.ContainsKey(currancyPair.Substring(0, 3) + Quotes.baseCurrency) 
+                && Quotes.CurrencyPair.ContainsKey(currancyPair.Substring(3, 3) + Quotes.baseCurrency);
         }
     }
 }

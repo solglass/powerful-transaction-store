@@ -3,7 +3,8 @@ namespace TransactionStore.API.Utils
 {
     public class Quotes
     {
-        public static Dictionary<string, decimal> Currency
+        public const string baseCurrency = "USD";
+        public static Dictionary<string, decimal> CurrencyPair
         {
             get
             {
@@ -12,7 +13,7 @@ namespace TransactionStore.API.Utils
                     ["USDUSD"] = 1, 
                     ["RUBUSD"] = (decimal)0.0133333,               
                     ["EURUSD"] = (decimal)1.2,                 
-                    ["JPYUSD"] = (decimal)0.7 ,
+                    ["JPYUSD"] = (decimal)0.009 ,
                 };
             }
         }
