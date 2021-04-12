@@ -15,3 +15,16 @@
 		ALLOW_ROW_LOCKS = ON,
 		ALLOW_PAGE_LOCKS = ON)
 ) 
+GO 
+CREATE NONCLUSTERED INDEX [IX_Transaction_Timestamp] ON [dbo].[Transaction] 
+(
+  [Timestamp] ASC
+)
+INCLUDE (LeadId);
+GO
+CREATE NONCLUSTERED INDEX [IX_Transaction_LeadId] ON [dbo].[Transaction] 
+(
+  [LeadId] ASC
+)
+INCLUDE (Currency, Type, Amount, Timestamp);
+
