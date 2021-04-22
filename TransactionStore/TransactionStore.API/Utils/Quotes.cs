@@ -11,7 +11,7 @@ namespace TransactionStore.API.Utils
                 return new Dictionary<string, decimal>
                 {
                     ["USDUSD"] = 1, 
-                    ["RUBUSD"] = (decimal)0.0133333,               
+                    ["RUBUSD"] = (decimal)0.01333333333333,               
                     ["EURUSD"] = (decimal)1.2,                 
                     ["JPYUSD"] = (decimal)0.009 ,
                 };
