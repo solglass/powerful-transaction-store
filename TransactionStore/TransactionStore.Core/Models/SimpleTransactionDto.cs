@@ -1,4 +1,4 @@
-﻿using EducationSystem.Core.Enums;
+﻿using TransactionStore.Core.Enums;
 using System;
 
 namespace TransactionStore.Core.Models

@@ -1,4 +1,4 @@
-﻿namespace EducationSystem.Core.Enums
+﻿namespace TransactionStore.Core.Enums
 {
     public enum Currency
     {
