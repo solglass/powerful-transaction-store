@@ -5,6 +5,7 @@ using TransactionStore.Core.Settings;
 using TransactionStore.Core.Models;
 using Dapper;
 using System.Linq;
+using System.Data;
 
 namespace TransactionStore.Data
 {
@@ -21,12 +22,12 @@ namespace TransactionStore.Data
                      .QuerySingle<int>("dbo.Transaction_AddDepositOrWithdraw",
                      new
                      {
-                         leadId = transaction.LeadId,
+                         AccountId = transaction.AccountId,
                          amount = transaction.Amount,
                          currency = (int)transaction.Currency,
                          type = (int)transaction.Type
                      },
-                     commandType: System.Data.CommandType.StoredProcedure);
+                     commandType: CommandType.StoredProcedure);
             return result;
         }
 
@@ -36,44 +37,43 @@ namespace TransactionStore.Data
                     .QueryFirstOrDefault<(int, int)>("dbo.Transaction_AddTransfer",
                     new
                     {
-                        senderId = transfer.SenderId,
-                        recipientId = transfer.RecipientId,
-                        senderAmount = transfer.SenderAmount,
-                        recipientAmount = transfer.RecipientAmount,
-                        senderСurrency = transfer.SenderCurrency,
-                        recipientСurrency = transfer.RecipientCurrency
+                        SenderAccountId = transfer.SenderAccountId,
+                        RecipientAccountId = transfer.RecipientAccountId,
+                        SenderAccountAmount = transfer.SenderAccountAmount,
+                        RecipientAccountAmount = transfer.RecipientAccountAmount,
+                        SenderAccountСurrency = transfer.SenderAccountCurrency,
+                        RecipientAccountСurrency = transfer.RecipientAccountCurrency
                     },
-                    commandType: System.Data.CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure);
             return result;
         }
 
-        public List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId)
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId)
         {
             var transactions =
-                _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByLeadId",
-            new { leadId},
-            commandType: System.Data.CommandType.StoredProcedure).ToList();
+                _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
+            new { accountId },
+            commandType: CommandType.StoredProcedure).ToList();
             return transactions;
         }
-        public List<TransferDto> GetTransfersByLeadId(int leadId)
+        public List<TransferDto> GetTransfersByAccountId(int accountId)
         {
             var transfers =
-                _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByLeadId",
-                new { leadId },
-                commandType: System.Data.CommandType.StoredProcedure).ToList();
+                _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByAccountId",
+                new { accountId },
+                commandType: CommandType.StoredProcedure).ToList();
             return transfers;
 
         }
-        public List<LeadBalanceDto> GetBalanceByLeadId(int leadId)
+        public AccountBalanceDto GetBalanceByAccountId(int accountId)
         {
             var result = _connection
-                    .Query<LeadBalanceDto>("dbo.Transaction_GetBalanceByLeadId",
+                    .QueryFirstOrDefault<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
                     new
                     {
-                        leadId = leadId
+                        accountId
                     },
-                    commandType: System.Data.CommandType.StoredProcedure
-                    ).ToList();
+                    commandType: CommandType.StoredProcedure);
             return result;
         }
     }

@@ -2,6 +2,6 @@
 {
     public class SimpleTransactionOutputModel : BaseTransactionOutputModel
     {
-        public int LeadId { get; set; }
+        public int AccountId { get; set; }
     }
 }

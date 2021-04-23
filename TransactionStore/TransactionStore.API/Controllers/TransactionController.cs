@@ -83,19 +83,19 @@ namespace TransactionStore.API.Controllers
         }
 
         /// <summary>
-        /// Get list of transactions by leadId
+        /// Get list of transactions by AccountId
         /// </summary>
-        /// <param name="leadId">Id of lead</param>
+        /// <param name="accountId">Id of lead</param>
         /// <returns>Returns list of TransactionOutputModels</returns>
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("{accountId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<string> GetTransactionsByLeadId(int leadId)
+        public ActionResult<string> GetTransactionsByAccountId(int accountId)
         {
-            var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(leadId));
+            var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByAccountId(accountId));
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
 
             return Ok(serialized);
@@ -105,16 +105,30 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Get balance of lead
         /// </summary>
-        /// <param name="leadId">Id of lead</param>
-        /// <returns>balance in decimal</returns>
+        /// <param name="accountId">Id of lead</param>
+        /// <returns>balance</returns>
         // https://localhost:44365/api/transaction/42
-        [ProducesResponseType(typeof(List<LeadBalanceOutputModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountBalanceOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("balance/{leadId}")]
-        public ActionResult<List<LeadBalanceOutputModel>> GetBalanceByLeadId(int leadId)
+        [HttpGet("balance/{accountId}")]
+        public ActionResult<AccountBalanceOutputModel> GetBalanceByAccountId(int accountId)
         {
-            var balance = _transactionService.GetBalanceByLeadId(leadId);
-            var result = _mapper.Map<List<LeadBalanceOutputModel>>(balance);
+            var balance = _transactionService.GetBalanceByAccountId(accountId);
+            var result = _mapper.Map<AccountBalanceOutputModel>(balance);
+            return Ok(result);
+        }
+        /// <summary>
+        /// Get balance of lead
+        /// </summary>
+        /// <param name="inputModel">accounts of lead</param>
+        /// <returns>whole balance</returns>
+        [ProducesResponseType(typeof(AccountBalanceOutputModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("balance")]
+        public ActionResult<AccountBalanceOutputModel> GetWholeBalance([FromBody] AccountWholeBalanceInputModel inputModel)
+        {
+            var balance = _transactionService.GetWholeBalance(inputModel);
+            var result = _mapper.Map<AccountBalanceOutputModel>(balance);
             return Ok(result);
         }
     }

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Transaction_AddDepositOrWithdraw]
-	@leadId int,
+	@accountId int,
 	@amount decimal,
 	@currency int,
 	@type int
@@ -8,13 +8,13 @@ begin
 	begin
 	if @type = 1
 		begin
-			insert into dbo.[Transaction] (LeadId, Amount, [Currency], [Type], [Timestamp])
-			values (@leadId, @amount, @currency, @type, CURRENT_TIMESTAMP)
+			insert into dbo.[Transaction] (AccountId, Amount, [Currency], [Type], [Timestamp])
+			values (@accountId, @amount, @currency, @type, CURRENT_TIMESTAMP)
 		end
 	else
 		begin
-			insert into dbo.[Transaction] (LeadId, Amount, [Currency], [Type], [Timestamp])
-			values (@leadId, -@amount, @currency, @type, CURRENT_TIMESTAMP)
+			insert into dbo.[Transaction] (AccountId, Amount, [Currency], [Type], [Timestamp])
+			values (@accountId, -@amount, @currency, @type, CURRENT_TIMESTAMP)
 		end
 	end
 	select SCOPE_IDENTITY()

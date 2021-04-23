@@ -7,8 +7,8 @@ namespace TransactionStore.Data
     {
         int AddDepositeOrWithdraw(SimpleTransactionDto dto);
         (int, int) AddTransfer(TransferDto dto);
-        List<SimpleTransactionDto> GetDepositOrWithdrawByLeadId(int leadId);
-        List<TransferDto> GetTransfersByLeadId(int leadId);
-        List<LeadBalanceDto> GetBalanceByLeadId(int leadId);
+        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId);
+        List<TransferDto> GetTransfersByAccountId(int accountId);
+        AccountBalanceDto GetBalanceByAccountId(int accountId);
     }
 }

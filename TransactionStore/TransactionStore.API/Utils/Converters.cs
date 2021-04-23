@@ -5,19 +5,19 @@ namespace TransactionStore.API.Utils
 {
     public class Converters
     {
-       public static Currency ConvertSenderCurrencyPairToCurrency(string inputCurrencyPair)
+       public static Currency ConvertSenderAccountCurrencyPairToCurrency(string inputCurrencyPair)
         {
             return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(0, 3));
         }
-        public static Currency ConvertRecipientCurrencyPairToCurrency(string inputCurrencyPair)
+        public static Currency ConvertRecipientAccountCurrencyPairToCurrency(string inputCurrencyPair)
         {
             return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(3, 3));
         }
         public static decimal ConvertAmount(string inputCurrencyPair, decimal amount)
         {
-            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(0, 3) + Quotes.baseCurrency, out decimal senderAmount);
-            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(3, 3) + Quotes.baseCurrency, out decimal recipientAmount);
-            return Decimal.Round((senderAmount / recipientAmount * amount), 4);
+            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(0, 3) + Quotes.baseCurrency, out decimal SenderAccountAmount);
+            Quotes.CurrencyPair.TryGetValue(inputCurrencyPair.Substring(3, 3) + Quotes.baseCurrency, out decimal RecipientAccountAmount);
+            return Decimal.Round((SenderAccountAmount / RecipientAccountAmount * amount), 4);
         }
     }
 }
