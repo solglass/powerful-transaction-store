@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using TransactionStore.API.Utils;
+using TransactionStore.Core.Utils;
 
 namespace TransactionStore.API.Attributes
 {

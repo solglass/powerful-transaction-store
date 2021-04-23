@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace TransactionStore.API.Utils
+namespace TransactionStore.Core.Utils
 {
     public class Quotes
     {

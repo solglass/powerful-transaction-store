@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Transaction]
 (
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[LeadId] [int] NOT NULL,
+	[AccountId] [int] NOT NULL,
 	[Amount] [decimal](18,4)  NOT NULL,
 	[Currency] [int] NOT NULL,
 	[Type] [int] NOT NULL,
@@ -20,11 +20,11 @@ CREATE NONCLUSTERED INDEX [IX_Transaction_Timestamp] ON [dbo].[Transaction]
 (
   [Timestamp] ASC
 )
-INCLUDE (LeadId);
+INCLUDE (AccountId);
 GO
-CREATE NONCLUSTERED INDEX [IX_Transaction_LeadId] ON [dbo].[Transaction] 
+CREATE NONCLUSTERED INDEX [IX_Transaction_AccountId] ON [dbo].[Transaction] 
 (
-  [LeadId] ASC
+  [AccountId] ASC
 )
 INCLUDE (Currency, Type, Amount, Timestamp);
 

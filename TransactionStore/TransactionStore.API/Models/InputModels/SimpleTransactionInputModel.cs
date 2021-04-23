@@ -6,6 +6,6 @@ namespace TransactionStore.API.Models.InputModels
     {
         [Required]
         [Range(1, int.MaxValue)]
-        public int LeadId { get; set; }
+        public int AccountId { get; set; }
     }
 }

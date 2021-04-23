@@ -8,7 +8,7 @@ namespace TransactionStore.Business
         int AddDeposite(SimpleTransactionDto dto);
         int AddWithdraw(SimpleTransactionDto dto);
         (int, int) AddTransfer(TransferDto dto);
-        List<BaseTransactionDto> GetTransactionsByLeadId(int leadId);
-        List <LeadBalanceDto> GetBalanceByLeadId(int leadId);
+        List<BaseTransactionDto> GetTransactionsByAccountId(int AccountId);
+        List<AccountBalanceDto> GetBalance(List<int> accounts, string currancy);
     }
 }
