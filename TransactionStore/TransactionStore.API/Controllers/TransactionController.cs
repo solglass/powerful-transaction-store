@@ -83,19 +83,19 @@ namespace TransactionStore.API.Controllers
         }
 
         /// <summary>
-        /// Get list of transactions by leadId
+        /// Get list of transactions by AccountId
         /// </summary>
-        /// <param name="leadId">Id of lead</param>
+        /// <param name="accountId">Id of lead</param>
         /// <returns>Returns list of TransactionOutputModels</returns>
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{leadId}")]
+        [HttpGet("{accountId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<string> GetTransactionsByLeadId(int leadId)
+        public ActionResult<string> GetTransactionsByAccountId(int accountId)
         {
-            var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByLeadId(leadId));
+            var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByAccountId(accountId));
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
 
             return Ok(serialized);
@@ -105,16 +105,16 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Get balance of lead
         /// </summary>
-        /// <param name="leadId">Id of lead</param>
-        /// <returns>balance in decimal</returns>
+        /// <param name="inputModel">Accounts of lead</param>
+        /// <returns>balance</returns>
         // https://localhost:44365/api/transaction/42
-        [ProducesResponseType(typeof(List<LeadBalanceOutputModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AccountBalanceOutputModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("balance/{leadId}")]
-        public ActionResult<List<LeadBalanceOutputModel>> GetBalanceByLeadId(int leadId)
+        [HttpPost("balance")]
+        public ActionResult<List<AccountBalanceOutputModel>> GetBalance([FromBody] AccountBalanceInputModel inputModel)
         {
-            var balance = _transactionService.GetBalanceByLeadId(leadId);
-            var result = _mapper.Map<List<LeadBalanceOutputModel>>(balance);
+            var balance = _transactionService.GetBalance(inputModel.AccountIds, inputModel.Currency);
+            var result = _mapper.Map<List<AccountBalanceOutputModel>>(balance);
             return Ok(result);
         }
     }

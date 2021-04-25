@@ -62,9 +62,9 @@
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
     <Build Include="Stored Procedures\Transaction_AddDepositOrWithdraw.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
+    <Build Include="Stored Procedures\Transaction_SelectByAccountId.sql" />
     <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectTransferByLeadId.sql" />
-    <Build Include="Stored Procedures\Transaction_GetBalanceByLeadId.sql" />
+    <Build Include="Stored Procedures\Transaction_SelectTransferByAccountId.sql" />
+    <Build Include="Stored Procedures\Transaction_GetBalanceByAccountId.sql" />
   </ItemGroup>
 </Project>

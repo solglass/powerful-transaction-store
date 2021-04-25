@@ -1,18 +1,18 @@
 using NUnit.Framework;
-using TransactionStore.API.Utils;
+using TransactionStore.Core.Utils;
 using TransactionStore.Core.Enums;
 
 namespace TransactionStore.Test
 {
-    public class Tests
+    public class CurrancyConverterTests
     {
         [TestCase("RUBUSD", 1)]
         [TestCase("USDRUB", 2)]
         [TestCase("EURRUB", 3)]
         [TestCase("JPYEUR", 4)]
-        public void ConvertSenderCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
+        public void ConvertSenderAccountCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
         {
-            var actual = Converters.ConvertSenderCurrencyPairToCurrency(inputCurrencyPair);
+            var actual = Converters.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
 
             Assert.AreEqual(expected, actual);
         }
@@ -20,9 +20,9 @@ namespace TransactionStore.Test
         [TestCase("EURUSD", 2)]
         [TestCase("RUBEUR", 3)]
         [TestCase("USDJPY", 4)]
-        public void ConvertRecipientCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
+        public void ConvertRecipientAccountCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
         {
-            var actual = Converters.ConvertRecipientCurrencyPairToCurrency(inputCurrencyPair);
+            var actual = Converters.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
 
             Assert.AreEqual(expected, actual);
         }
@@ -39,11 +39,11 @@ namespace TransactionStore.Test
         [TestCase("USLDDRUB")]
         [TestCase("12@#13#@$*23")]
         [TestCase(null)]
-        public void ConvertSenderCurrencyPairToCurrencyNegativeTest(string inputCurrencyPair)
+        public void ConvertSenderAccountCurrencyPairToCurrencyNegativeTest(string inputCurrencyPair)
         {
             try
             {
-                Converters.ConvertSenderCurrencyPairToCurrency(inputCurrencyPair);
+                Converters.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
             }
             catch
             {
@@ -55,11 +55,11 @@ namespace TransactionStore.Test
         [TestCase("USLDDRUB")]
         [TestCase("12@#13#@$*23")]
         [TestCase(null)]
-        public void ConvertRecipientCurrencyPairToCurrencyNegativeTest(string inputCurrencyPair)
+        public void ConvertRecipientAccountCurrencyPairToCurrencyNegativeTest(string inputCurrencyPair)
         {
             try
             {
-                Converters.ConvertRecipientCurrencyPairToCurrency(inputCurrencyPair);
+                Converters.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
             }
             catch
             {

@@ -9,9 +9,9 @@ namespace TransactionStore.API.Models.InputModels
     {
         [Required]
         [Range(1, int.MaxValue)]
-        public int SenderId { get; set; }
+        public int SenderAccountId { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
-        public int RecipientId { get; set; }
+        public int RecipientAccountId { get; set; }
     }
 }

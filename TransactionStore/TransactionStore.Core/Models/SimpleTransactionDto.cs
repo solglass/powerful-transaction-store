@@ -5,6 +5,6 @@ namespace TransactionStore.Core.Models
 {
     public class SimpleTransactionDto : BaseTransactionDto
     {
-        public int LeadId { get; set; }
+        public int AccountId { get; set; }
     }
 }
