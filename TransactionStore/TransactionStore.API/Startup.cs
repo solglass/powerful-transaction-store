@@ -5,6 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Config;
 using TransactionStore.Core.Settings;
+using MassTransit;
+using System.Threading.Tasks;
+using EventContracts;
+using Microsoft.Extensions.Logging;
 
 namespace TransactionStore.API
 {
@@ -32,6 +36,20 @@ namespace TransactionStore.API
             services.RegistrateServicesConfig();
             services.AddAutoMapper(typeof(Startup));
             services.SwaggerExtention();
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<EventConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ReceiveEndpoint("event-listener", e =>
+                    {
+                        e.ConfigureConsumer<EventConsumer>(context);
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
 
         }
 
@@ -56,6 +74,24 @@ namespace TransactionStore.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+
+    }
+
+    class EventConsumer :
+    IConsumer<ValueEntered>
+    {
+        ILogger<EventConsumer> _logger;
+
+        public EventConsumer(ILogger<EventConsumer> logger)
+        {
+            _logger = logger;
+        }
+
+        public async Task Consume(ConsumeContext<ValueEntered> context)
+        {
+            _logger.LogInformation("Value: {Value}", context.Message.Value);
         }
     }
 }
