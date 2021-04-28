@@ -58,13 +58,24 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Stored Procedures" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Downgrade" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Transaction.sql" />
     <Build Include="Stored Procedures\Transaction_AddDepositOrWithdraw.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectByAccountId.sql" />
+    <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
     <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectTransferByAccountId.sql" />
-    <Build Include="Stored Procedures\Transaction_GetBalanceByAccountId.sql" />
+    <Build Include="Stored Procedures\Transaction_SelectTransferByLeadId.sql" />
+    <Build Include="Stored Procedures\Transaction_GetBalanceByLeadId.sql" />
+    <Build Include="Tables\DbVersion.sql" />
+    <None Include="Scripts\Downgrade\Ver1_Lead_Returns.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\Ver2_Accounts_Added.sql" />
+    <None Include="TransactionStore.DB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploymentScript.sql" />
   </ItemGroup>
 </Project>
