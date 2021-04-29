@@ -9,6 +9,7 @@ using MassTransit;
 using System.Threading.Tasks;
 using EventContracts;
 using Microsoft.Extensions.Logging;
+using TransactionStore.Core.Utils;
 
 namespace TransactionStore.API
 {
@@ -92,6 +93,7 @@ namespace TransactionStore.API
         public async Task Consume(ConsumeContext<ValueEntered> context)
         {
             _logger.LogInformation("Value: {Value}", context.Message.Value);
+            Quotes.field = context.Message.Value;
         }
     }
 }

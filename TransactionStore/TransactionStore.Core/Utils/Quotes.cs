@@ -4,6 +4,7 @@ namespace TransactionStore.Core.Utils
     public class Quotes
     {
         public const string baseCurrency = "USD";
+        public static string field;
         public static Dictionary<string, decimal> CurrencyPair
         {
             get
