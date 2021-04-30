@@ -1,0 +1,25 @@
+﻿using EventContracts;
+using MassTransit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TransactionStore.Core.Utils;
+using Newtonsoft.Json.Linq;
+
+namespace TransactionStore.API
+{
+    public class EventConsumer : IConsumer<ValueEntered>
+    {
+        public async Task Consume(ConsumeContext<ValueEntered> context)
+        {
+            var json = JObject.Parse(context.Message.Value);
+            var result = json["quotes"].Select(s => new
+           {
+               CurrancyName = (s as JProperty).Name,
+               CurrencyValue = (s as JProperty).Value
+            }).ToDictionary(k => k.CurrancyName, v => Convert.ToDecimal(v.CurrencyValue));
+            Quotes.CurrencyPair = result;
+       }
+    }
+}

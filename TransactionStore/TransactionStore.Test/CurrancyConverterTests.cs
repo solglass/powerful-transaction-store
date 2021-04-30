@@ -26,9 +26,9 @@ namespace TransactionStore.Test
 
             Assert.AreEqual(expected, actual);
         }
-        [TestCase("USDRUB", 1000000, 75000000)]
-        [TestCase("EURJPY", 2000, 266666.6667)]
-        [TestCase("JPYUSD", 0, 0)]
+        [TestCase("RUBUSD", 1000000, 75000000)]
+        [TestCase("JPYEUR", 2000, 266666.6667)]
+        [TestCase("USDJPY", 0, 0)]
         public void ConvertAmountPositiveTest(string inputCurrencyPair, decimal amount, decimal expected)
         {
             var actual = Converters.ConvertAmount(inputCurrencyPair, amount);

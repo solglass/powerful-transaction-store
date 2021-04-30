@@ -4,20 +4,12 @@ namespace TransactionStore.Core.Utils
     public class Quotes
     {
         public const string baseCurrency = "USD";
-        public static string field;
-        public static Dictionary<string, decimal> CurrencyPair
+        public static Dictionary<string, decimal> CurrencyPair { get; set; } = new  Dictionary<string, decimal>
         {
-            get
-            {
-                return new Dictionary<string, decimal>
-                {
-                    ["USDUSD"] = 1, 
-                    ["RUBUSD"] = (decimal)0.01333333333333,               
-                    ["EURUSD"] = (decimal)1.2,                 
-                    ["JPYUSD"] = (decimal)0.009 ,
-                };
-            }
-        }
-        
+            ["USDUSD"] = 1,
+            ["USDRUB"] = (decimal)0.01333333333333,
+            ["USDEUR"] = (decimal)1.2,
+            ["USDJPY"] = (decimal)0.009,
+        };
     }
 }

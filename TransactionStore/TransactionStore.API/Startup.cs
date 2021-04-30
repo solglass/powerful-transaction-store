@@ -79,21 +79,4 @@ namespace TransactionStore.API
 
 
     }
-
-    class EventConsumer :
-    IConsumer<ValueEntered>
-    {
-        ILogger<EventConsumer> _logger;
-
-        public EventConsumer(ILogger<EventConsumer> logger)
-        {
-            _logger = logger;
-        }
-
-        public async Task Consume(ConsumeContext<ValueEntered> context)
-        {
-            _logger.LogInformation("Value: {Value}", context.Message.Value);
-            Quotes.field = context.Message.Value;
-        }
-    }
 }

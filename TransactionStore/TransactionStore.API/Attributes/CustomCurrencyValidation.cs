@@ -11,7 +11,7 @@ namespace TransactionStore.API.Attributes
         {
             string currancy = (string)value;
             return currancy.Length == _currancyLength
-                && Quotes.CurrencyPair.ContainsKey(currancy + Quotes.baseCurrency);
+                && Quotes.CurrencyPair.ContainsKey(Quotes.baseCurrency + currancy);
         }
     }
 }
