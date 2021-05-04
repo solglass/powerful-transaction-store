@@ -2,7 +2,9 @@
 {
     public class TransferOutputModel : BaseTransactionOutputModel
     {
-        public int SenderAccountId { get; set; }
-        public int RecipientAccountId { get; set; }
+        public int SenderId { get; set; }
+        public int RecipientId { get; set; }
+        public string SenderCurrency { get; set; }
+        public string RecipientCurrency { get; set; }
     }
 }

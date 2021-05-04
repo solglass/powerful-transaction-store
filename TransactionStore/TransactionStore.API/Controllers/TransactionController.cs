@@ -95,7 +95,8 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<string> GetTransactionsByAccountId(int accountId)
         {
-            var result = _mapper.Map<List<BaseTransactionOutputModel>>(_transactionService.GetTransactionsByAccountId(accountId));
+            var dto = _transactionService.GetTransactionsByAccountId(accountId);
+            var result = _mapper.Map<List<BaseTransactionOutputModel>>(dto);
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
 
             return Ok(serialized);

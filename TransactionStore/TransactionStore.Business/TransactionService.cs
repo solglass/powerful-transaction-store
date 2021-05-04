@@ -45,9 +45,9 @@ namespace TransactionStore.Business
             for (int i = 0; i < accounts.Count; i++)
             {
                 wholeBalance.Accounts.Add(_transactionRepository.GetBalanceByAccountId(accounts[i]));
-                wholeBalance.Balance += Converters.ConvertAmount(wholeBalance.Accounts[i].Currency + currency, wholeBalance.Accounts[i].Amount);
+                wholeBalance.Balance += Converters.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
             }
-            wholeBalance.Currency = (Currency)Enum.Parse(typeof(Currency), currency);
+            wholeBalance.Currency = Converters.ConvertCurrencyStringToCurrencyEnum(currency);
             return wholeBalance;
         }
     }

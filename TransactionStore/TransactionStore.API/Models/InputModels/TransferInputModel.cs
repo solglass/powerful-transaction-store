@@ -5,13 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace TransactionStore.API.Models.InputModels
 {
-    public class TransferInputModel : BaseTransactionInputModel
+    public class TransferInputModel
     {
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int SenderAccountId { get; set; }
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int RecipientAccountId { get; set; }
+        public Account SenderAccount { get; set; }
+        public Account RecipientAccount { get; set; }
+        public decimal Amount { get; set; }
     }
 }
