@@ -1,7 +1,6 @@
 ﻿using EventContracts;
 using MassTransit;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TransactionStore.Core.Utils;
@@ -16,10 +15,11 @@ namespace TransactionStore.API
             var json = JObject.Parse(context.Message.Value);
             var result = json["quotes"].Select(s => new
            {
-               CurrancyName = (s as JProperty).Name,
+               CurrencyName = (s as JProperty).Name,
                CurrencyValue = (s as JProperty).Value
-            }).ToDictionary(k => k.CurrancyName, v => Convert.ToDecimal(v.CurrencyValue));
+            })
+            .ToDictionary(k => k.CurrencyName, v => Convert.ToDecimal(v.CurrencyValue));
             Quotes.CurrencyPair = result;
-       }
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace TransactionStore.Business
             return transactions;
         }
 
-        public List<AccountBalanceDto> GetBalance(List<int> accounts, string currancy)
+        public List<AccountBalanceDto> GetBalance(List<int> accounts, string currency)
         {
             var balance = new List<AccountBalanceDto>();
             var wholeBalance = new AccountBalanceDto();
@@ -46,9 +46,9 @@ namespace TransactionStore.Business
             {
                 var balanceDto = _transactionRepository.GetBalanceByAccountId(account);
                 balance.Add(balanceDto);
-                wholeBalance.Amount += Converters.ConvertAmount(balanceDto.Currency + currancy, balanceDto.Amount);
+                wholeBalance.Amount += Converters.ConvertAmount(balanceDto.Currency + currency, balanceDto.Amount);
             }
-            wholeBalance.Currency = (Currency)Enum.Parse(typeof(Currency), currancy);
+            wholeBalance.Currency = (Currency)Enum.Parse(typeof(Currency), currency);
             balance.Add(wholeBalance);
             return balance;
         }

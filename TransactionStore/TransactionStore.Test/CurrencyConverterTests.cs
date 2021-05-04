@@ -1,11 +1,23 @@
 using NUnit.Framework;
 using TransactionStore.Core.Utils;
 using TransactionStore.Core.Enums;
+using System.Collections.Generic;
 
 namespace TransactionStore.Test
 {
-    public class CurrancyConverterTests
+    public class CurrencyConverterTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Quotes.CurrencyPair = new Dictionary<string, decimal>()
+            {
+                ["USDUSD"] = 1,
+                ["RUBUSD"] = (decimal)0.01333333333333,
+                ["EURUSD"] = (decimal)1.2,
+                ["JPYUSD"] = (decimal)0.009
+            };
+        }
         [TestCase("RUBUSD", 1)]
         [TestCase("USDRUB", 2)]
         [TestCase("EURRUB", 3)]
