@@ -108,13 +108,13 @@ namespace TransactionStore.API.Controllers
         /// <param name="inputModel">Accounts of lead</param>
         /// <returns>balance</returns>
         // https://localhost:44365/api/transaction/42
-        [ProducesResponseType(typeof(List<AccountBalanceOutputModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(WholeBalanceOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("balance")]
-        public ActionResult<List<AccountBalanceOutputModel>> GetBalance([FromBody] AccountBalanceInputModel inputModel)
+        public ActionResult<WholeBalanceOutputModel> GetBalance([FromBody] AccountBalanceInputModel inputModel)
         {
             var balance = _transactionService.GetBalance(inputModel.AccountIds, inputModel.Currency);
-            var result = _mapper.Map<List<AccountBalanceOutputModel>>(balance);
+            var result = _mapper.Map<WholeBalanceOutputModel>(balance);
             return Ok(result);
         }
     }

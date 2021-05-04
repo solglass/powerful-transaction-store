@@ -38,19 +38,17 @@ namespace TransactionStore.Business
             return transactions;
         }
 
-        public List<AccountBalanceDto> GetBalance(List<int> accounts, string currency)
+        public WholeBalanceDto GetBalance(List<int> accounts, string currency)
         {
-            var balance = new List<AccountBalanceDto>();
-            var wholeBalance = new AccountBalanceDto();
-            foreach(var account in accounts)
+            var wholeBalance = new WholeBalanceDto();
+            wholeBalance.Accounts = new List<AccountBalanceDto>();
+            for (int i = 0; i < accounts.Count; i++)
             {
-                var balanceDto = _transactionRepository.GetBalanceByAccountId(account);
-                balance.Add(balanceDto);
-                wholeBalance.Amount += Converters.ConvertAmount(balanceDto.Currency + currency, balanceDto.Amount);
+                wholeBalance.Accounts.Add(_transactionRepository.GetBalanceByAccountId(accounts[i]));
+                wholeBalance.Balance += Converters.ConvertAmount(wholeBalance.Accounts[i].Currency + currency, wholeBalance.Accounts[i].Amount);
             }
             wholeBalance.Currency = (Currency)Enum.Parse(typeof(Currency), currency);
-            balance.Add(wholeBalance);
-            return balance;
+            return wholeBalance;
         }
     }
 }

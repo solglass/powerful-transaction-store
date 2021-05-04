@@ -9,6 +9,6 @@ namespace TransactionStore.Business
         int AddWithdraw(SimpleTransactionDto dto);
         (int, int) AddTransfer(TransferDto dto);
         List<BaseTransactionDto> GetTransactionsByAccountId(int AccountId);
-        List<AccountBalanceDto> GetBalance(List<int> accounts, string currancy);
+        WholeBalanceDto GetBalance(List<int> accounts, string currancy);
     }
 }

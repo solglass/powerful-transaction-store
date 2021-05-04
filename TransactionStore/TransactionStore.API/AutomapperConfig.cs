@@ -4,6 +4,8 @@ using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
 using TransactionStore.Core.Utils;
 using TransactionStore.Core.Models;
+using System.Collections.Generic;
+using System;
 
 namespace TransactionStore.API
 {
@@ -27,6 +29,7 @@ namespace TransactionStore.API
 
             CreateMap<BaseTransactionDto, BaseTransactionOutputModel>().Include<SimpleTransactionDto, SimpleTransactionOutputModel>().Include<TransferDto, TransferOutputModel>();
             CreateMap<AccountBalanceDto, AccountBalanceOutputModel>();
+            CreateMap<WholeBalanceDto, WholeBalanceOutputModel>();
         }
     }
 }

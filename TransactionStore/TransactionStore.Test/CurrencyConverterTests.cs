@@ -13,9 +13,9 @@ namespace TransactionStore.Test
             Quotes.CurrencyPair = new Dictionary<string, decimal>()
             {
                 ["USDUSD"] = 1,
-                ["RUBUSD"] = (decimal)0.01333333333333,
-                ["EURUSD"] = (decimal)1.2,
-                ["JPYUSD"] = (decimal)0.009
+                ["USDRUB"] = (decimal)0.01333333333333,
+                ["USDEUR"] = (decimal)1.2,
+                ["USDJPY"] = (decimal)0.009
             };
         }
         [TestCase("RUBUSD", 1)]
