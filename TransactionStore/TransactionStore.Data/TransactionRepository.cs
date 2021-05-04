@@ -6,6 +6,7 @@ using TransactionStore.Core.Models;
 using Dapper;
 using System.Linq;
 using System.Data;
+using TransactionStore.Core.Enums;
 
 namespace TransactionStore.Data
 {
@@ -39,10 +40,10 @@ namespace TransactionStore.Data
                     {
                         senderAccountId = transfer.SenderAccountId,
                         recipientAccountId = transfer.RecipientAccountId,
-                        senderAmount = transfer.SenderAccountAmount,
-                        recipientAmount = transfer.RecipientAccountAmount,
-                        senderСurrency = transfer.SenderAccountCurrency,
-                        recipientСurrency = transfer.RecipientAccountCurrency
+                        senderAmount = transfer.SenderAmount,
+                        recipientAmount = transfer.RecipientAmount,
+                        senderСurrency = transfer.SenderCurrency,
+                        recipientСurrency = transfer.RecipientCurrency
                     },
                     commandType: CommandType.StoredProcedure);
             return result;

@@ -6,9 +6,9 @@ namespace TransactionStore.API.Models.InputModels
     public abstract class BaseTransactionInputModel
     {
         [Required]
-        public decimal Amount { get; set; }
-        [Required]
-        [CustomCurrencyPairValidation]
-        public string CurrencyPair { get; set; }
+        public Value Value { get; set; }
+        //[Required]
+        //[CustomCurrencyPairValidation]
+        //public string CurrencyPair { get; set; }
     }
 }

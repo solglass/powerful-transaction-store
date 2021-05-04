@@ -5,18 +5,14 @@ namespace TransactionStore.Core.Utils
 {
     public class Converters
     {
-       public static Currency ConvertRecipientAccountCurrencyPairToCurrency(string inputCurrencyPair)
+        public static Currency ConvertCurrencyStringToCurrencyEnum(string currency)
         {
-            return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(3, 3));
+            return (Currency)Enum.Parse(typeof(Currency), currency);
         }
-        public static Currency ConvertSenderAccountCurrencyPairToCurrency(string inputCurrencyPair)
+        public static decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
-            return (Currency)Enum.Parse(typeof(Currency), inputCurrencyPair.Substring(0, 3));
-        }
-        public static decimal ConvertAmount(string inputCurrencyPair, decimal amount)
-        {
-            Quotes.CurrencyPair.TryGetValue(Quotes.baseCurrency + inputCurrencyPair.Substring(0, 3), out decimal RecipientAccountAmount);
-            Quotes.CurrencyPair.TryGetValue(Quotes.baseCurrency + inputCurrencyPair.Substring(3, 3), out decimal SenderAccountAmount);
+            Quotes.CurrencyPair.TryGetValue(Quotes.baseCurrency + senderCurrency, out decimal RecipientAccountAmount);
+            Quotes.CurrencyPair.TryGetValue(Quotes.baseCurrency + recipientCurrency, out decimal SenderAccountAmount);
             return Decimal.Round((SenderAccountAmount / RecipientAccountAmount * amount), 4);
         }
     }

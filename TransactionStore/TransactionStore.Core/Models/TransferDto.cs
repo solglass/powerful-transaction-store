@@ -10,9 +10,9 @@ namespace TransactionStore.Core.Models
         }
         public int SenderAccountId { get; set; }
         public int RecipientAccountId { get; set; }
-        public decimal SenderAccountAmount { get; set; }
-        public decimal RecipientAccountAmount { get; set; }
-        public Currency SenderAccountCurrency { get; set; }
-        public Currency RecipientAccountCurrency { get; set; }
+        public decimal SenderAmount { get; set; }
+        public decimal RecipientAmount { get; set; }
+        public Currency SenderCurrency { get; set; }
+        public Currency RecipientCurrency { get; set; }
     }
 }
