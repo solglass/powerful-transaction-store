@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TransactionStore.Core.Utils;
+
 
 namespace TransactionStore.API.Attributes
 {

@@ -2,10 +2,8 @@
 using TransactionStore.Core.Enums;
 using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
-using TransactionStore.Core.Utils;
+using TransactionStore.Business;
 using TransactionStore.Core.Models;
-using System.Collections.Generic;
-using System;
 
 namespace TransactionStore.API
 {
@@ -20,7 +18,7 @@ namespace TransactionStore.API
             CreateMap<SimpleTransactionInputModel, SimpleTransactionDto>()
             .ForPath(dest => dest.Currency, opts => opts.MapFrom(src => src.Account.Currency))
             .ForPath(dest => dest.AccountId, opts => opts.MapFrom(src => src.Account.AccountId))
-            .ForPath(dest => dest.Amount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.Value.Currency, src.Account.Currency, src.Value.Amount)));
+            .ForPath(dest => dest.Amount, opts => opts.MapFrom(src => ConverterService.ConvertAmount(src.Value.Currency, src.Account.Currency, src.Value.Amount)));
 
             CreateMap<TransferDto, TransferOutputModel>()
                 .ForPath(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)))
@@ -32,9 +30,9 @@ namespace TransactionStore.API
                 .ForPath(dest => dest.SenderAccountId, opts => opts.MapFrom(src => src.SenderAccount.AccountId))
                 .ForPath(dest => dest.RecipientAccountId, opts => opts.MapFrom(src => src.RecipientAccount.AccountId))
                 .ForPath(dest => dest.SenderAmount, opts => opts.MapFrom(src => src.Amount))
-                .ForPath(dest => dest.RecipientAmount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.SenderAccount.Currency, src.RecipientAccount.Currency, src.Amount)))
-                .ForPath(dest => dest.SenderCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.SenderAccount.Currency)))
-                .ForPath(dest => dest.RecipientCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.RecipientAccount.Currency)));
+                .ForPath(dest => dest.RecipientAmount, opts => opts.MapFrom(src => ConverterService.ConvertAmount(src.SenderAccount.Currency, src.RecipientAccount.Currency, src.Amount)))
+                .ForPath(dest => dest.SenderCurrency, opts => opts.MapFrom(src => ConverterService.ConvertCurrencyStringToCurrencyEnum(src.SenderAccount.Currency)))
+                .ForPath(dest => dest.RecipientCurrency, opts => opts.MapFrom(src => ConverterService.ConvertCurrencyStringToCurrencyEnum(src.RecipientAccount.Currency)));
 
 
             CreateMap<BaseTransactionDto, BaseTransactionOutputModel>().Include<SimpleTransactionDto, SimpleTransactionOutputModel>().Include<TransferDto, TransferOutputModel>();

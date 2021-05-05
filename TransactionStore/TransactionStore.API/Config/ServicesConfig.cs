@@ -10,6 +10,8 @@ namespace TransactionStore.API.Config
         {
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddSingleton<ConverterService>();
+            services.AddSingleton<CurrencyRatesService>();
         }
     }
 }

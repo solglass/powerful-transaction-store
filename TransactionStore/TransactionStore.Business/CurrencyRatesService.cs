@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-namespace TransactionStore.Core.Utils
+namespace TransactionStore.Business
 {
-    public class Quotes
+    public class CurrencyRatesService
     {
         public const string baseCurrency = "USD";
         public static Dictionary<string, decimal> CurrencyPair { get; set; }

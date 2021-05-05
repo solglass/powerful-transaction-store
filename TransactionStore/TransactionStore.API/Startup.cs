@@ -6,10 +6,6 @@ using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Config;
 using TransactionStore.Core.Settings;
 using MassTransit;
-using System.Threading.Tasks;
-using EventContracts;
-using Microsoft.Extensions.Logging;
-using TransactionStore.Core.Utils;
 
 namespace TransactionStore.API
 {

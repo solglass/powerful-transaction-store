@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using TransactionStore.Core.Utils;
+using TransactionStore.Business;
 
 namespace TransactionStore.API.Attributes
 {
@@ -11,8 +11,8 @@ namespace TransactionStore.API.Attributes
         {
             string currancyPair = (string)value;
             return currancyPair.Length == _currancyPairLength
-                && Quotes.CurrencyPair.ContainsKey(Quotes.baseCurrency + currancyPair.Substring(0, 3)) 
-                && Quotes.CurrencyPair.ContainsKey(Quotes.baseCurrency + currancyPair.Substring(3, 3));
+                && CurrencyRatesService.CurrencyPair.ContainsKey(CurrencyRatesService.baseCurrency + currancyPair.Substring(0, 3)) 
+                && CurrencyRatesService.CurrencyPair.ContainsKey(CurrencyRatesService.baseCurrency + currancyPair.Substring(3, 3));
         }
     }
 }

@@ -2,7 +2,6 @@
 using TransactionStore.Core.Models;
 using System.Collections.Generic;
 using TransactionStore.Core.Enums;
-using TransactionStore.Core.Utils;
 using System;
 
 namespace TransactionStore.Business
@@ -45,9 +44,9 @@ namespace TransactionStore.Business
             for (int i = 0; i < accounts.Count; i++)
             {
                 wholeBalance.Accounts.Add(_transactionRepository.GetBalanceByAccountId(accounts[i]));
-                wholeBalance.Balance += Converters.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
+                wholeBalance.Balance += ConverterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
             }
-            wholeBalance.Currency = Converters.ConvertCurrencyStringToCurrencyEnum(currency);
+            wholeBalance.Currency = ConverterService.ConvertCurrencyStringToCurrencyEnum(currency);
             return wholeBalance;
         }
     }

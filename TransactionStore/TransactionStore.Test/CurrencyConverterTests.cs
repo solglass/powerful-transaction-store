@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using TransactionStore.Core.Utils;
+
 using TransactionStore.Core.Enums;
 using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ namespace TransactionStore.Test
     //        [SetUp]
     //        public void SetUp()
     //        {
-    //            Quotes.CurrencyPair = new Dictionary<string, decimal>()
+    //            CurrencyRatesService.CurrencyPair = new Dictionary<string, decimal>()
     //            {
     //                ["USDUSD"] = 1,
     //                ["USDRUB"] = (decimal)0.01333333333333,
@@ -24,7 +24,7 @@ namespace TransactionStore.Test
     //        [TestCase("JPYEUR", 4)]
     //        public void ConvertSenderAccountCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
     //        {
-    //            var actual = Converters.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
+    //            var actual = ConverterService.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
 
     //            Assert.AreEqual(expected, actual);
     //        }
@@ -34,7 +34,7 @@ namespace TransactionStore.Test
     //        [TestCase("USDJPY", 4)]
     //        public void ConvertRecipientAccountCurrencyPairToCurrencyPositiveTest(string inputCurrencyPair, Currency expected)
     //        {
-    //            var actual = Converters.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
+    //            var actual = ConverterService.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
 
     //            Assert.AreEqual(expected, actual);
     //        }
@@ -43,7 +43,7 @@ namespace TransactionStore.Test
     //        [TestCase("USDJPY", 0, 0)]
     //        public void ConvertAmountPositiveTest(string inputCurrencyPair, decimal amount, decimal expected)
     //        {
-    //            var actual = Converters.ConvertAmount(inputCurrencyPair, amount);
+    //            var actual = ConverterService.ConvertAmount(inputCurrencyPair, amount);
 
     //            Assert.AreEqual(expected, actual);
     //        }
@@ -55,7 +55,7 @@ namespace TransactionStore.Test
     //        {
     //            try
     //            {
-    //                Converters.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
+    //                ConverterService.ConvertSenderAccountCurrencyPairToCurrency(inputCurrencyPair);
     //            }
     //            catch
     //            {
@@ -71,7 +71,7 @@ namespace TransactionStore.Test
     //        {
     //            try
     //            {
-    //                Converters.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
+    //                ConverterService.ConvertRecipientAccountCurrencyPairToCurrency(inputCurrencyPair);
     //            }
     //            catch
     //            {
@@ -87,7 +87,7 @@ namespace TransactionStore.Test
     //        {
     //            try
     //            {
-    //                Converters.ConvertAmount(inputCurrencyPair, amount);
+    //                ConverterService.ConvertAmount(inputCurrencyPair, amount);
     //            }
     //            catch
     //            {

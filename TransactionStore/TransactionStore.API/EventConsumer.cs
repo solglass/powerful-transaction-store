@@ -3,7 +3,7 @@ using MassTransit;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using TransactionStore.Core.Utils;
+using TransactionStore.Business;
 using Newtonsoft.Json.Linq;
 
 namespace TransactionStore.API
@@ -19,7 +19,7 @@ namespace TransactionStore.API
                CurrencyValue = (s as JProperty).Value
             })
             .ToDictionary(k => k.CurrencyName, v => Convert.ToDecimal(v.CurrencyValue));
-            Quotes.CurrencyPair = result;
+            CurrencyRatesService.CurrencyPair = result;
         }
     }
 }
