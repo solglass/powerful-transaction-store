@@ -26,7 +26,7 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Add Deposite
         /// </summary>
-        /// <param name="transaction">Data about the extracted entity</param>
+        /// <param name="transaction">Information about transaction</param>
         /// <returns>Returns Id of added deposite</returns>
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -45,7 +45,7 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Add Withdraw
         /// </summary>
-        /// <param name="transaction">Data about the extracted entity</param>
+        /// <param name="transaction">Information about transaction</param>
         /// <returns>Returns Id of added withdraw</returns>
         // https://localhost:44365/api/dw/transaction
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -64,7 +64,7 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Add Transfer
         /// </summary>
-        /// <param name="transfer">Data about the extracted entity</param>
+        /// <param name="transfer">Information about transaction</param>
         /// <returns>Returns Ids of added transfers</returns>
         // https://localhost:44365/api//tr/transaction
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -85,7 +85,7 @@ namespace TransactionStore.API.Controllers
         /// <summary>
         /// Get list of transactions by AccountId
         /// </summary>
-        /// <param name="accountId">Id of lead</param>
+        /// <param name="accountId">Id of Account</param>
         /// <returns>Returns list of TransactionOutputModels</returns>
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -101,13 +101,11 @@ namespace TransactionStore.API.Controllers
 
             return Ok(serialized);
         }
-
-
         /// <summary>
-        /// Get balance of lead
+        /// Get balance of Accounts
         /// </summary>
-        /// <param name="inputModel">Accounts of lead</param>
-        /// <returns>balance</returns>
+        /// <param name="inputModel">list of accounts Ids and currency for whole balance</param>
+        /// <returns>whole balance in certain currency</returns>
         // https://localhost:44365/api/transaction/42
         [ProducesResponseType(typeof(WholeBalanceOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
