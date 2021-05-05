@@ -11,3 +11,4 @@ Post-Deployment Script Template
 */
 
 :r .\Ver2_Accounts_Added.sql
+:r .\Ver3_TransferByAccountId_Edited.sql

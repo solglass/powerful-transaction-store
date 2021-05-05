@@ -70,9 +70,11 @@
     <Build Include="Stored Procedures\Transaction_GetBalanceByLeadId.sql" />
     <Build Include="Tables\DbVersion.sql" />
     <None Include="Scripts\Downgrade\Ver1_Lead_Returns.sql" />
+    <None Include="Scripts\Ver2_Accounts_Added.sql" />
+    <None Include="Scripts\Downgrade\Ver2_TransferByAccountId_BackToPreviousState.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\Ver2_Accounts_Added.sql" />
+    <None Include="Scripts\Ver3_TransferByAccountId_Edited.sql" />
     <None Include="TransactionStore.DB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
