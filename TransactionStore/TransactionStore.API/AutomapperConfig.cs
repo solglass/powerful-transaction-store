@@ -22,7 +22,7 @@ namespace TransactionStore.API
             CreateMap<TransferDto, TransferOutputModel>()
                 .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)))
                 .ForMember(dest => dest.SenderId, opts => opts.MapFrom(src => src.SenderAccountId))
-                .ForMember(dest => dest.RecipientId, opts => opts.MapFrom(src => src.RecipientAccountId))
+                .ForMember(dest => dest.RecipientId, opts => opts.MapFrom(src => src.RecipientAccountId));
             CreateMap<TransferInputModel, TransferDto>()
                 .ForMember(dest => dest.SenderAmount, opts => opts.MapFrom(src => src.Amount))
                 .ForMember(dest => dest.RecipientAmount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.SenderAccount.Currency, src.RecipientAccount.Currency, src.Amount)))
