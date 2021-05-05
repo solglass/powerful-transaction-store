@@ -14,20 +14,27 @@ namespace TransactionStore.API
         public AutomapperConfig()
         {
             CreateMap<SimpleTransactionDto, SimpleTransactionOutputModel>()
-                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)));
+                .ForPath(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)))
+                .ForPath(dest => dest.Value.Amount, opts => opts.MapFrom(src => src.Amount))
+                .ForPath(dest => dest.Value.Currency, opts => opts.MapFrom(src => src.Currency));
             CreateMap<SimpleTransactionInputModel, SimpleTransactionDto>()
-            .ForMember(dest => dest.Currency, opts => opts.MapFrom(src => src.Account.Currency))
-            .ForMember(dest => dest.Amount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.Value.Currency, src.Account.Currency, src.Value.Amount)));
+            .ForPath(dest => dest.Currency, opts => opts.MapFrom(src => src.Account.Currency))
+            .ForPath(dest => dest.AccountId, opts => opts.MapFrom(src => src.Account.AccountId))
+            .ForPath(dest => dest.Amount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.Value.Currency, src.Account.Currency, src.Value.Amount)));
 
             CreateMap<TransferDto, TransferOutputModel>()
-                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)))
-                .ForMember(dest => dest.SenderId, opts => opts.MapFrom(src => src.SenderAccountId))
-                .ForMember(dest => dest.RecipientId, opts => opts.MapFrom(src => src.RecipientAccountId));
+                .ForPath(dest => dest.Type, opts => opts.MapFrom(src => FriendlyNames.GetFriendlyTransactionTypeName(src.Type)))
+                .ForPath(dest => dest.Sender.AccountId, opts => opts.MapFrom(src => src.SenderAccountId))
+                .ForPath(dest => dest.Sender.Currency, opts => opts.MapFrom(src => src.SenderCurrency))
+                .ForPath(dest => dest.Recipient.AccountId, opts => opts.MapFrom(src => src.RecipientAccountId))
+                .ForPath(dest => dest.Recipient.Currency, opts => opts.MapFrom(src => src.RecipientCurrency));
             CreateMap<TransferInputModel, TransferDto>()
-                .ForMember(dest => dest.SenderAmount, opts => opts.MapFrom(src => src.Amount))
-                .ForMember(dest => dest.RecipientAmount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.SenderAccount.Currency, src.RecipientAccount.Currency, src.Amount)))
-                .ForMember(dest => dest.SenderCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.SenderAccount.Currency)))
-                .ForMember(dest => dest.RecipientCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.RecipientAccount.Currency)));
+                .ForPath(dest => dest.SenderAccountId, opts => opts.MapFrom(src => src.SenderAccount.AccountId))
+                .ForPath(dest => dest.RecipientAccountId, opts => opts.MapFrom(src => src.RecipientAccount.AccountId))
+                .ForPath(dest => dest.SenderAmount, opts => opts.MapFrom(src => src.Amount))
+                .ForPath(dest => dest.RecipientAmount, opts => opts.MapFrom(src => Converters.ConvertAmount(src.SenderAccount.Currency, src.RecipientAccount.Currency, src.Amount)))
+                .ForPath(dest => dest.SenderCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.SenderAccount.Currency)))
+                .ForPath(dest => dest.RecipientCurrency, opts => opts.MapFrom(src => Converters.ConvertCurrencyStringToCurrencyEnum(src.RecipientAccount.Currency)));
 
 
             CreateMap<BaseTransactionDto, BaseTransactionOutputModel>().Include<SimpleTransactionDto, SimpleTransactionOutputModel>().Include<TransferDto, TransferOutputModel>();
