@@ -52,7 +52,9 @@ namespace TransactionStore.Business
             wholeBalance.Accounts = new List<AccountBalanceDto>();
             for (int i = 0; i < accounts.Count; i++)
             {
-                wholeBalance.Accounts.Add(_transactionRepository.GetBalanceByAccountId(accounts[i]));
+                var accountBalanceDto = _transactionRepository.GetBalanceByAccountId(accounts[i]);
+                accountBalanceDto.AccountId = accounts[i];
+                wholeBalance.Accounts.Add(accountBalanceDto);
                 wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
             }
             wholeBalance.Currency = _converterService.ConvertCurrencyStringToCurrencyEnum(currency);
