@@ -9,23 +9,31 @@ namespace TransactionStore.Business
     public class TransactionService : ITransactionService
     {
         private ITransactionRepository _transactionRepository;
+        private ConverterService _converterService;
 
-        public TransactionService(ITransactionRepository transactionRepository)
+        public TransactionService(ITransactionRepository transactionRepository, ConverterService converterService)
         {
             _transactionRepository = transactionRepository;
+            _converterService = converterService;
         }
 
         public int AddDeposite(SimpleTransactionDto transaction)
         {
+            transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)1;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
         public int AddWithdraw(SimpleTransactionDto transaction)
         {
+            transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)2;
             return _transactionRepository.AddDepositeOrWithdraw(transaction);
         }
-        public (int, int) AddTransfer(TransferDto transfer) => _transactionRepository.AddTransfer(transfer);
+        public (int, int) AddTransfer(TransferDto transfer) 
+        {
+            transfer.RecipientAmount = _converterService.ConvertAmount(transfer.SenderCurrency.ToString(), transfer.RecipientCurrency.ToString(), transfer.RecipientAmount);
+            return _transactionRepository.AddTransfer(transfer);
+        } 
         public List<BaseTransactionDto> GetTransactionsByAccountId(int accountId)
         {
             var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountId(accountId).ConvertAll(x => (BaseTransactionDto)x);
@@ -44,9 +52,9 @@ namespace TransactionStore.Business
             for (int i = 0; i < accounts.Count; i++)
             {
                 wholeBalance.Accounts.Add(_transactionRepository.GetBalanceByAccountId(accounts[i]));
-                wholeBalance.Balance += ConverterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
+                wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
             }
-            wholeBalance.Currency = ConverterService.ConvertCurrencyStringToCurrencyEnum(currency);
+            wholeBalance.Currency = _converterService.ConvertCurrencyStringToCurrencyEnum(currency);
             return wholeBalance;
         }
     }

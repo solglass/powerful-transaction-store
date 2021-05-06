@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 namespace TransactionStore.API.Models.InputModels
 {
     public class TransferInputModel
     {
-        public Account SenderAccount { get; set; }
-        public Account RecipientAccount { get; set; }
+        [Required]
+        public AccountModel SenderAccount { get; set; }
+        [Required]
+        public AccountModel RecipientAccount { get; set; }
+        [Required]
         public decimal Amount { get; set; }
     }
 }

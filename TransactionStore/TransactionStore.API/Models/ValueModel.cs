@@ -1,7 +1,6 @@
-﻿
-namespace TransactionStore.API.Models.OutputModels
+﻿namespace TransactionStore.API.Models
 {
-    public class AccountBalanceOutputModel
+    public class ValueModel
     {
         public decimal Amount { get; set; }
         public string Currency { get; set; }
