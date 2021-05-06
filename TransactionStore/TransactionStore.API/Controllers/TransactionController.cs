@@ -83,19 +83,18 @@ namespace TransactionStore.API.Controllers
         }
 
         /// <summary>
-        /// Get list of transactions by AccountId
+        /// Get list of all transactions by AccountIds
         /// </summary>
-        /// <param name="accountId">Id of Account</param>
-        /// <returns>Returns list of TransactionOutputModels</returns>
-        // https://localhost:44365/api/transaction/42
+        /// <returns>Returns list of all Transactions by AccountIds in List</returns>
+        // https://localhost:44365/api/transaction/
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status403Forbidden)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{accountId}")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<string> GetTransactionsByAccountId(int accountId)
+        public ActionResult<string> GetTransactionsListByAccountIds([FromBody] List<int> accountIds)
         {
-            var dto = _transactionService.GetTransactionsByAccountId(accountId);
+            var dto = _transactionService.GetTransactionsByAccountIds(accountIds);
             var result = _mapper.Map<List<BaseTransactionOutputModel>>(dto);
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
 

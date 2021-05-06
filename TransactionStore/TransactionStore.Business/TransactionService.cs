@@ -34,10 +34,11 @@ namespace TransactionStore.Business
             transfer.RecipientAmount = _converterService.ConvertAmount(transfer.SenderCurrency.ToString(), transfer.RecipientCurrency.ToString(), transfer.RecipientAmount);
             return _transactionRepository.AddTransfer(transfer);
         } 
-        public List<BaseTransactionDto> GetTransactionsByAccountId(int accountId)
+        public List<BaseTransactionDto> GetTransactionsByAccountIds(List<int> accountIds)
         {
-            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountId(accountId).ConvertAll(x => (BaseTransactionDto)x);
-            var transfers = _transactionRepository.GetTransfersByAccountId(accountId).ConvertAll(x => (BaseTransactionDto)x);
+            var dataTable = _converterService.ConvertListToDataTable(accountIds);
+            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountIds(dataTable).ConvertAll(x => (BaseTransactionDto)x);
+            var transfers = _transactionRepository.GetTransfersByAccountIds(dataTable).ConvertAll(x => (BaseTransactionDto)x);
             var transactions = new List<BaseTransactionDto>();
             transactions.AddRange(depositesOrWithdraws);
             transactions.AddRange(transfers);
