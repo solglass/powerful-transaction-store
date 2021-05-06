@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using TransactionStore.Core.Enums;
 
 namespace TransactionStore.Business
@@ -23,6 +25,17 @@ namespace TransactionStore.Business
             _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + recipientCurrency, out decimal SenderAccountAmount);
             return Decimal.Round((SenderAccountAmount / RecipientAccountAmount * amount), 4);
         }
+
+        public DataTable ConvertListToDataTable(List<int> data)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("Id", typeof(int)));
+
+            foreach (var id in data)
+                table.Rows.Add(id);
+            return table;
+        }
+
         private bool IsValid(string currency)
         {
             return currency.Length == _currencyLength

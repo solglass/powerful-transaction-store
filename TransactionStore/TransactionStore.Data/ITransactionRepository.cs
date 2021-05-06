@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using TransactionStore.Core.Models;
 
 namespace TransactionStore.Data
@@ -7,8 +8,8 @@ namespace TransactionStore.Data
     {
         int AddDepositeOrWithdraw(SimpleTransactionDto dto);
         (int, int) AddTransfer(TransferDto dto);
-        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId);
-        List<TransferDto> GetTransfersByAccountId(int accountId);
+        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountIds(DataTable accountIds);
+        List<TransferDto> GetTransfersByAccountIds(DataTable accountIds);
         AccountBalanceDto GetBalanceByAccountId(int accountId);
     }
 }

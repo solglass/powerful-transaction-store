@@ -6,7 +6,6 @@ using TransactionStore.Core.Models;
 using Dapper;
 using System.Linq;
 using System.Data;
-using TransactionStore.Core.Enums;
 
 namespace TransactionStore.Data
 {
@@ -49,31 +48,26 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId)
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountIds(DataTable accountIds)
         {
-            var transactions =
-                _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
-            new { accountId },
+            var transactions =_connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountIdsList",
+            new { accountIds },
             commandType: CommandType.StoredProcedure).ToList();
             return transactions;
         }
-        public List<TransferDto> GetTransfersByAccountId(int accountId)
+        public List<TransferDto> GetTransfersByAccountIds(DataTable accountIds)
         {
-            var transfers =
-                _connection.Query<TransferDto>("dbo.Transaction_SelectTransferByAccountId",
-                new { accountId },
-                commandType: CommandType.StoredProcedure).ToList();
+            var transfers =_connection.Query<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
+               new { accountIds },
+               commandType: CommandType.StoredProcedure).ToList();
             return transfers;
 
         }
         public AccountBalanceDto GetBalanceByAccountId(int accountId)
         {
-            var result = _connection
-                    .QueryFirstOrDefault<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
+            var result = _connection.QueryFirstOrDefault<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
                     new
-                    {
-                        accountId
-                    },
+                    { accountId },
                     commandType: CommandType.StoredProcedure);
             return result;
         }
