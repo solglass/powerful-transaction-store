@@ -14,6 +14,7 @@ Post-Deployment Script Template
 :r ..\Tables\Transaction.sql
 :r ..\StoredProcedures\Transaction_AddDepositOrWithdraw.sql
 :r ..\StoredProcedures\Transaction_AddTransfer.sql
+:r ..\StoredProcedures\Transaction_GenerateData.sql
 :r ..\StoredProcedures\Transaction_GetBalanceByLeadId.sql
 :r ..\StoredProcedures\Transaction_SelectByLeadId.sql
 :r ..\StoredProcedures\Transaction_SelectTransferByLeadId.sql

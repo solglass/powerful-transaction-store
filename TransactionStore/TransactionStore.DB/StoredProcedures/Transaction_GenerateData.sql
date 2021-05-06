@@ -1,4 +1,8 @@
-﻿create proc [dbo].[Transaction_GenerateData]
+﻿if not exists (select 1 from sys.objects where name = 'Transaction_GenerateData') 
+begin set noexec ON
+END
+GO
+create proc [dbo].[Transaction_GenerateData]
 @amountStrs int
 as
 begin
@@ -50,3 +54,5 @@ begin
 			insert into dbo.[Transaction] (LeadId, Amount, Currency, Type, Timestamp) values (@leadId, -@amount, @currency,@type, @rdate), (@recId, @amount, @currency,@type, @rdate);
 	END
 end
+GO
+set noexec OFF
