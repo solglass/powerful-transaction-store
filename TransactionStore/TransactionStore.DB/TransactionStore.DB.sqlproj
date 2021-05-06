@@ -22,6 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <IsChangeTrackingOn>True</IsChangeTrackingOn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,21 +58,22 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
-    <Folder Include="Stored Procedures" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\Downgrade" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Transaction.sql" />
-    <Build Include="Stored Procedures\Transaction_AddDepositOrWithdraw.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectByLeadId.sql" />
-    <Build Include="Stored Procedures\Transaction_AddTransfer.sql" />
-    <Build Include="Stored Procedures\Transaction_SelectTransferByLeadId.sql" />
-    <Build Include="Stored Procedures\Transaction_GetBalanceByLeadId.sql" />
+    <None Include="Tables\Transaction.sql" />
     <Build Include="Tables\DbVersion.sql" />
     <None Include="Scripts\Downgrade\Ver1_Lead_Returns.sql" />
     <None Include="Scripts\Ver2_Accounts_Added.sql" />
     <None Include="Scripts\Downgrade\Ver2_TransferByAccountId_BackToPreviousState.sql" />
+    <None Include="StoredProcedures\Transaction_AddDepositOrWithdraw.sql" />
+    <None Include="StoredProcedures\Transaction_AddTransfer.sql" />
+    <None Include="StoredProcedures\Transaction_GetBalanceByLeadId.sql" />
+    <None Include="StoredProcedures\Transaction_SelectByLeadId.sql" />
+    <None Include="StoredProcedures\Transaction_SelectTransferByLeadId.sql" />
+    <None Include="StoredProcedures\Transaction_GenerateData.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Ver3_TransferByAccountId_Edited.sql" />

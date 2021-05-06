@@ -6,6 +6,15 @@ from dbo.DbVersion order by id desc
 if @DbVersion > 2 set noexec on
 
 BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+
 GO
 ALTER proc [dbo].[Transaction_SelectTransferByAccountId]
 @accountId int
@@ -33,7 +42,9 @@ select
   where t.AccountId = @accountId and t.[Type] = 3
 end
 GO
+
 update dbo.DbVersion set Version=3
 GO
-COMMIT
+
 set noexec off
+

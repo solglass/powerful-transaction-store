@@ -1,9 +1,0 @@
-﻿create proc dbo.[Transaction_GetBalanceByAccountId]
-@accountId int
-as
-begin
-select
-	SUM (t.Amount) as Amount
-	from [dbo].[Transaction] t
-	where t.AccountId = @accountId
-end

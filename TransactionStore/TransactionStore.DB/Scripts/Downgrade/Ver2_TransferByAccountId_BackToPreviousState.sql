@@ -5,7 +5,7 @@ from dbo.DbVersion order by id desc
 
 if @DbVersion > 3 set noexec on
 
-BEGIN TRANSACTION
+
 GO
 ALTER proc [dbo].[Transaction_SelectTransferByAccountId]
 @accountId int
@@ -38,7 +38,10 @@ union all
   where t.AccountId = @accountId and t.Amount > 0 and t.[Type] = 3
 end
 GO
+
 update dbo.DbVersion set Version=2
 GO
-COMMIT
+
+
 set noexec off
+GO

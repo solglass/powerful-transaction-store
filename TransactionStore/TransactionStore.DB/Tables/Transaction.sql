@@ -1,4 +1,8 @@
-﻿CREATE TABLE [dbo].[Transaction]
+﻿if not exists (select 1 from sys.objects where name = 'Transaction') 
+begin set noexec ON
+END
+GO
+CREATE TABLE [dbo].[Transaction]
 (
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[LeadId] [int] NOT NULL,
@@ -27,4 +31,5 @@ CREATE NONCLUSTERED INDEX [IX_Transaction_LeadId] ON [dbo].[Transaction]
   [LeadId] ASC
 )
 INCLUDE (Currency, Type, Amount, Timestamp);
-
+GO
+set noexec OFF

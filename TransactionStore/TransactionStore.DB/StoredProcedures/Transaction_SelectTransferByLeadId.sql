@@ -1,4 +1,8 @@
-﻿create proc [dbo].[Transaction_SelectTransferByLeadId]
+﻿if not exists (select 1 from sys.objects where name = 'Transaction_SelectTransferByLeadId') 
+begin set noexec ON
+END
+GO
+create proc [dbo].[Transaction_SelectTransferByLeadId]
 @leadId int
 as
 begin
@@ -28,3 +32,5 @@ union all
 	from [dbo].[Transaction] t
 	where t.LeadId = @leadId and t.Amount > 0 and t.Type = 3
 end
+GO
+set noexec OFF
