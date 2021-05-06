@@ -3,7 +3,7 @@ namespace TransactionStore.Business
 {
     public class CurrencyRatesService
     {
-        public const string baseCurrency = "USD";
-        public static Dictionary<string, decimal> CurrencyPair { get; set; }
+        public string BaseCurrency = "USD";
+        public Dictionary<string, decimal> CurrencyPair { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 {
     public class TransferOutputModel : BaseTransactionOutputModel
     {
-        public Account Sender { get; set; }
-        public Account Recipient { get; set; }
+        public AccountModel Sender { get; set; }
+        public AccountModel Recipient { get; set; }
         public decimal Amount { get; set; }
 
     }

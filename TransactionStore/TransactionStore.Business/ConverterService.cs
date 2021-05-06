@@ -5,15 +5,28 @@ namespace TransactionStore.Business
 {
     public class ConverterService
     {
-        public static Currency ConvertCurrencyStringToCurrencyEnum(string currency)
+        private int _currencyLength = 3;
+        private CurrencyRatesService _currencyRatesService;
+        public ConverterService(CurrencyRatesService currencyRatesService)
         {
+            _currencyRatesService = currencyRatesService;
+        }
+        public Currency ConvertCurrencyStringToCurrencyEnum(string currency)
+        {
+            if (!IsValid(currency)) throw new Exception("Currency is not valid");
             return (Currency)Enum.Parse(typeof(Currency), currency);
         }
-        public static decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
+        public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
-            CurrencyRatesService.CurrencyPair.TryGetValue(CurrencyRatesService.baseCurrency + senderCurrency, out decimal RecipientAccountAmount);
-            CurrencyRatesService.CurrencyPair.TryGetValue(CurrencyRatesService.baseCurrency + recipientCurrency, out decimal SenderAccountAmount);
+            if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
+            _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + senderCurrency, out decimal RecipientAccountAmount);
+            _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + recipientCurrency, out decimal SenderAccountAmount);
             return Decimal.Round((SenderAccountAmount / RecipientAccountAmount * amount), 4);
+        }
+        private bool IsValid(string currency)
+        {
+            return currency.Length == _currencyLength
+                && _currencyRatesService.CurrencyPair.ContainsKey(_currencyRatesService.BaseCurrency + currency);
         }
     }
 }

@@ -35,13 +35,13 @@ namespace TransactionStore.API
             services.SwaggerExtention();
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<EventConsumer>();
+                x.AddConsumer<CurrencyRatesConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.ReceiveEndpoint("event-listener", e =>
                     {
-                        e.ConfigureConsumer<EventConsumer>(context);
+                        e.ConfigureConsumer<CurrencyRatesConsumer>(context);
                     });
                 });
             });

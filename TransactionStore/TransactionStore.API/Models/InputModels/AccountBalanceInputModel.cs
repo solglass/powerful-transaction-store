@@ -10,7 +10,6 @@ namespace TransactionStore.API.Models.InputModels
         [CustomAccountsValidation]
         public List<int> AccountIds { get; set; }
         [Required]
-        [CustomCurrencyValidation]
         public string Currency { get; set; }
     }
 }
