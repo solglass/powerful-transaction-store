@@ -21,6 +21,7 @@ namespace TransactionStore.Business
         }
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
+            if (senderCurrency == recipientCurrency) return Decimal.Round(amount, 4);
             if (!IsValid(senderCurrency) || !IsValid(recipientCurrency)) throw new Exception("Currency is not valid");
             _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + senderCurrency, out decimal RecipientAccountAmount);
             _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + recipientCurrency, out decimal SenderAccountAmount);
