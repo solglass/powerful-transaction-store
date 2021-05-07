@@ -5,8 +5,8 @@ using System.Text;
 namespace EventContracts
 
 {
-    public interface ValueEntered
+    public interface CurrencyRates
     {
-        string Value { get; }
+        Dictionary<string, decimal> Value { get; }
     }
 }

@@ -38,6 +38,7 @@ namespace TransactionStore.Business
 
         private bool IsValid(string currency)
         {
+            if (_currencyRatesService.CurrencyPair == null) throw new Exception("Service unavailable");
             return currency.Length == _currencyLength
                 && _currencyRatesService.CurrencyPair.ContainsKey(_currencyRatesService.BaseCurrency + currency);
         }
