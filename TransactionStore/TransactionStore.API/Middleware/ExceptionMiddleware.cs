@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TransactionStore.Core.CustomExceptions;
 
 namespace TransactionStore.API.Middleware
 {
@@ -26,21 +27,40 @@ namespace TransactionStore.API.Middleware
             {
                 await _next(httpContext);
             }
+            catch (CurrencyRatesServiceException ex)
+            {
+                await HandleCurrencyRatesServiceExceptionAsync(httpContext, ex);
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
+        private Task HandleCurrencyRatesServiceExceptionAsync(HttpContext context, CurrencyRatesServiceException exception)
+        {
+            ModifyContextResponse(context, exception.StatusCode);
+
+            return ConstructResponse(context, exception.StatusCode, exception.ErrorMessage);
+        }
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.ContentType = MediaTypeNames.Application.Json;
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            ModifyContextResponse(context, (int)HttpStatusCode.BadRequest);
 
+            return ConstructResponse(context, (int)HttpStatusCode.BadRequest, exception.Message);
+        }
+        private void ModifyContextResponse(HttpContext context, int statusCode)
+        {
+            context.Response.ContentType = MediaTypeNames.Application.Json;
+            context.Response.StatusCode = statusCode;
+        }
+
+        private Task ConstructResponse(HttpContext context, int statusCode, string message)
+        {
             var errorResponse = JsonSerializer.Serialize(
                 new
                 {
-                    Code = HttpStatusCode.BadRequest,
-                    Message = GlobalErrorMessage
+                    Code = statusCode,
+                    Message = message
                 });
 
             return context.Response.WriteAsync(errorResponse);

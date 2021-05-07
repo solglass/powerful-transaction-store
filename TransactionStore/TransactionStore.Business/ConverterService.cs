@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using TransactionStore.Core.Enums;
+using TransactionStore.Core.CustomExceptions;
 
 namespace TransactionStore.Business
 {
@@ -38,6 +39,7 @@ namespace TransactionStore.Business
 
         private bool IsValid(string currency)
         {
+            if (_currencyRatesService.CurrencyPair == null) throw new CurrencyRatesServiceException();
             return currency.Length == _currencyLength
                 && _currencyRatesService.CurrencyPair.ContainsKey(_currencyRatesService.BaseCurrency + currency);
         }
