@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Config;
 using TransactionStore.Core.Settings;
 using MassTransit;
+using TransactionStore.API.Middleware;
 
 namespace TransactionStore.API
 {
@@ -67,6 +68,7 @@ namespace TransactionStore.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
