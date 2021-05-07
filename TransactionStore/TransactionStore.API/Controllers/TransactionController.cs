@@ -93,7 +93,7 @@ namespace TransactionStore.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<string> GetTransactionsListByAccountIds([FromBody] List<int> accountIds)
-        {
+        {                  
             var dto = _transactionService.GetTransactionsByAccountIds(accountIds);
             var result = _mapper.Map<List<BaseTransactionOutputModel>>(dto);
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);

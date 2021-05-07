@@ -46,6 +46,13 @@ namespace TransactionStore.Business
             return transactions;
         }
 
+        public bool GetTransactionsByAccountId(int accountId)
+        {
+            if (_transactionRepository.GetDepositOrWithdrawByAccountId(accountId) is null)
+                return false;
+            return true;
+        }
+
         public WholeBalanceDto GetBalance(List<int> accounts, string currency)
         {
             var wholeBalance = new WholeBalanceDto();
@@ -53,9 +60,14 @@ namespace TransactionStore.Business
             for (int i = 0; i < accounts.Count; i++)
             {
                 var accountBalanceDto = _transactionRepository.GetBalanceByAccountId(accounts[i]);
-                accountBalanceDto.AccountId = accounts[i];
-                wholeBalance.Accounts.Add(accountBalanceDto);
-                wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
+                if (accountBalanceDto is null)
+                    wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0 });
+                else
+                {
+                    accountBalanceDto.AccountId = accounts[i];
+                    wholeBalance.Accounts.Add(accountBalanceDto);
+                    wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
+                }     
             }
             wholeBalance.Currency = _converterService.ConvertCurrencyStringToCurrencyEnum(currency);
             return wholeBalance;

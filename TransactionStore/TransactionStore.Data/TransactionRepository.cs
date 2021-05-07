@@ -55,6 +55,13 @@ namespace TransactionStore.Data
             commandType: CommandType.StoredProcedure).ToList();
             return transactions;
         }
+        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId)
+        {
+            var transactions = _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
+            new { accountId },
+            commandType: CommandType.StoredProcedure).ToList();
+            return transactions;
+        }
         public List<TransferDto> GetTransfersByAccountIds(DataTable accountIds)
         {
             var transfers =_connection.Query<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
