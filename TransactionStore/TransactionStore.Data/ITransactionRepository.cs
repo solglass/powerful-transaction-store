@@ -10,6 +10,7 @@ namespace TransactionStore.Data
         (int, int) AddTransfer(TransferDto dto);
         List<SimpleTransactionDto> GetDepositOrWithdrawByAccountIds(DataTable accountIds);
         List<TransferDto> GetTransfersByAccountIds(DataTable accountIds);
+        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId);
         AccountBalanceDto GetBalanceByAccountId(int accountId);
     }
 }
