@@ -61,7 +61,7 @@ namespace TransactionStore.Business
             {
                 var accountBalanceDto = _transactionRepository.GetBalanceByAccountId(accounts[i]);
                 if (accountBalanceDto is null)
-                    wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0 });
+                    wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0, Currency = null});
                 else
                 {
                     accountBalanceDto.AccountId = accounts[i];

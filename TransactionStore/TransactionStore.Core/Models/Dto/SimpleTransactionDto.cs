@@ -7,6 +7,6 @@ namespace TransactionStore.Core.Models
     {
         public int AccountId { get; set; }
         //public Currency AccountCurrency { get; set; }
-        public Currency ValueCurrency { get; set; }
+        public Currency? ValueCurrency { get; set; }
     }
 }

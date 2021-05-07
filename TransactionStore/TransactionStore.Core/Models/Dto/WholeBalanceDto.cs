@@ -7,6 +7,6 @@ namespace TransactionStore.Core.Models
     {
         public List<AccountBalanceDto> Accounts { get; set; }
         public decimal Balance { get; set; }
-        public Currency Currency { get; set; }
+        public Currency? Currency { get; set; }
     }
 }
