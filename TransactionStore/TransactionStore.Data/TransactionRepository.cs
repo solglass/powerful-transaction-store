@@ -6,6 +6,7 @@ using TransactionStore.Core.Models;
 using Dapper;
 using System.Linq;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace TransactionStore.Data
 {
@@ -16,10 +17,10 @@ namespace TransactionStore.Data
             _connection = new SqlConnection(_connectionString);
         }
 
-        public int AddDepositeOrWithdraw(SimpleTransactionDto transaction)
+        public async Task<int> AddDepositeOrWithdraw(SimpleTransactionDto transaction)
         {
-            var result = _connection
-                     .QuerySingle<int>("dbo.Transaction_AddDepositOrWithdraw",
+            var result = await _connection
+                     .QuerySingleAsync<int>("dbo.Transaction_AddDepositOrWithdraw",
                      new
                      {
                          AccountId = transaction.AccountId,
@@ -31,10 +32,10 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public (int, int) AddTransfer(TransferDto transfer)
+        public async Task<(int, int)> AddTransfer(TransferDto transfer)
         {
-            var result = _connection
-                    .QueryFirstOrDefault<(int, int)>("dbo.Transaction_AddTransfer",
+            var result = await _connection
+                    .QueryFirstOrDefaultAsync<(int, int)>("dbo.Transaction_AddTransfer",
                     new
                     {
                         senderAccountId = transfer.SenderAccountId,
@@ -48,31 +49,30 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountIds(DataTable accountIds)
+        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIds(DataTable accountIds)
         {
-            var transactions =_connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountIdsList",
+            var transactions = await _connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountIdsList",
             new { accountIds },
-            commandType: CommandType.StoredProcedure).ToList();
-            return transactions;
+            commandType: CommandType.StoredProcedure);
+            return transactions.ToList();
         }
-        public List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId)
+        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountId(int accountId)
         {
-            var transactions = _connection.Query<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
+            var transactions = await _connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
             new { accountId },
-            commandType: CommandType.StoredProcedure).ToList();
-            return transactions;
+            commandType: CommandType.StoredProcedure);
+            return transactions.ToList();
         }
-        public List<TransferDto> GetTransfersByAccountIds(DataTable accountIds)
+        public async Task <List<TransferDto>> GetTransfersByAccountIds(DataTable accountIds)
         {
-            var transfers =_connection.Query<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
+            var transfers = await _connection.QueryAsync<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
                new { accountIds },
-               commandType: CommandType.StoredProcedure).ToList();
-            return transfers;
-
+               commandType: CommandType.StoredProcedure);
+            return transfers.ToList();
         }
-        public AccountBalanceDto GetBalanceByAccountId(int accountId)
+        public async Task<AccountBalanceDto> GetBalanceByAccountId(int accountId)
         {
-            var result = _connection.QueryFirstOrDefault<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
+            var result = await _connection.QueryFirstOrDefaultAsync<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
                     new
                     { accountId },
                     commandType: CommandType.StoredProcedure);

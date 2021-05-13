@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
 using TransactionStore.API.Models.OutputModels;
 using TransactionStore.Business;
@@ -32,14 +33,14 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("deposite")]
-        public ActionResult<int> AddDeposite([FromBody] SimpleTransactionInputModel transaction)
+        public async Task<ActionResult<int>> AddDeposite([FromBody] SimpleTransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
-            var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId = _transactionService.AddDeposite(transactionDto);
+            var transactionDto =  _mapper.Map<SimpleTransactionDto>(transaction);
+            var transactionId =  await _transactionService.AddDeposite(transactionDto);
             return Ok(transactionId);
         }
         /// <summary>
@@ -51,14 +52,14 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("withdraw")]
-        public ActionResult<int> AddWithdraw([FromBody] SimpleTransactionInputModel transaction)
+        public async Task<ActionResult<int>> AddWithdraw([FromBody] SimpleTransactionInputModel transaction)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId = _transactionService.AddWithdraw(transactionDto);
+            var transactionId = await _transactionService.AddWithdraw(transactionDto);
             return Ok(transactionId);
         }
         /// <summary>
@@ -70,14 +71,14 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("transfer")]
-        public ActionResult<string> AddTransfer([FromBody] TransferInputModel transfer)
+        public async Task<ActionResult<string>> AddTransfer([FromBody] TransferInputModel transfer)
         {
             if (!ModelState.IsValid)
             {
                 return Conflict();
             }
             var transferDto = _mapper.Map<TransferDto>(transfer);
-            var transferIds = _transactionService.AddTransfer(transferDto);
+            var transferIds = await _transactionService.AddTransfer(transferDto);
             string serialized = JsonConvert.SerializeObject(transferIds, Formatting.Indented);
             return Ok(serialized);
         }
@@ -92,12 +93,11 @@ namespace TransactionStore.API.Controllers
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<string> GetTransactionsListByAccountIds([FromBody] List<int> accountIds)
+        public async Task<ActionResult<string>> GetTransactionsListByAccountIds([FromBody] List<int> accountIds)
         {                  
-            var dto = _transactionService.GetTransactionsByAccountIds(accountIds);
+            var dto = await _transactionService.GetTransactionsByAccountIds(accountIds);
             var result = _mapper.Map<List<BaseTransactionOutputModel>>(dto);
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
-
             return Ok(serialized);
         }
         /// <summary>
@@ -109,9 +109,9 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(typeof(WholeBalanceOutputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("balance")]
-        public ActionResult<WholeBalanceOutputModel> GetBalance([FromBody] AccountBalanceInputModel inputModel)
+        public async Task<ActionResult<WholeBalanceOutputModel>> GetBalance([FromBody] AccountBalanceInputModel inputModel)
         {
-            var balance = _transactionService.GetBalance(inputModel.AccountIds, inputModel.Currency);
+            var balance = await _transactionService.GetBalance(inputModel.AccountIds, inputModel.Currency);
             var result = _mapper.Map<WholeBalanceOutputModel>(balance);
             return Ok(result);
         }

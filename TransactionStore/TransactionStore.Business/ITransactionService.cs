@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TransactionStore.Core.Models;
 
 namespace TransactionStore.Business
 {
     public interface ITransactionService
     {
-        int AddDeposite(SimpleTransactionDto dto);
-        int AddWithdraw(SimpleTransactionDto dto);
-        (int, int) AddTransfer(TransferDto dto);
-        List<BaseTransactionDto> GetTransactionsByAccountIds(List<int> AccountIds);
-        public bool GetTransactionsByAccountId(int accountId);
-        WholeBalanceDto GetBalance(List<int> accounts, string currancy);
+        Task<int> AddDeposite(SimpleTransactionDto dto);
+        Task<int> AddWithdraw(SimpleTransactionDto dto);
+        Task<(int, int)> AddTransfer(TransferDto dto);
+        Task<List<BaseTransactionDto>> GetTransactionsByAccountIds(List<int> AccountIds);
+        Task<WholeBalanceDto> GetBalance(List<int> accounts, string currancy);
     }
 }
