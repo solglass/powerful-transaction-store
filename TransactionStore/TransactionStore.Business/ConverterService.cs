@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using TransactionStore.Core.Enums;
 using TransactionStore.Core.CustomExceptions;
+using System.Threading.Tasks;
 
 namespace TransactionStore.Business
 {
@@ -19,6 +20,11 @@ namespace TransactionStore.Business
             if (!IsValid(currency)) throw new Exception("Currency is not valid");
             return (Currency)Enum.Parse(typeof(Currency), currency);
         }
+
+        public async Task<Currency> ConvertCurrencyStringToCurrencyEnumAsync(string currency)
+        {
+            return await Task.Run(() => ConvertCurrencyStringToCurrencyEnum(currency));
+        }
         public decimal ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount)
         {
             if (senderCurrency == recipientCurrency) return Decimal.Round(amount, 4);
@@ -26,6 +32,11 @@ namespace TransactionStore.Business
             _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + senderCurrency, out decimal RecipientAccountAmount);
             _currencyRatesService.CurrencyPair.TryGetValue(_currencyRatesService.BaseCurrency + recipientCurrency, out decimal SenderAccountAmount);
             return Decimal.Round((SenderAccountAmount / RecipientAccountAmount * amount), 4);
+        }
+
+        public async Task<decimal> ConvertAmountAsync(string senderCurrency, string recipientCurrency, decimal amount)
+        {
+            return await Task.Run(() => ConvertAmount(senderCurrency, recipientCurrency, amount));
         }
 
         public DataTable ConvertListToDataTable(List<int> data)
@@ -36,6 +47,11 @@ namespace TransactionStore.Business
             foreach (var id in data)
                 table.Rows.Add(id);
             return table;
+        }
+
+        public async Task<DataTable> ConvertListToDataTableAsync(List<int> data)
+        {
+            return await Task.Run(() => ConvertListToDataTable(data));
         }
 
         private bool IsValid(string currency)
