@@ -44,8 +44,8 @@ namespace TransactionStore.Business
             var dataTable = _converterService.ConvertListToDataTable(accountIds);
             var depositesOrWithdraws = await _transactionRepository.GetDepositOrWithdrawByAccountIds(dataTable);
             var transfers = await _transactionRepository.GetTransfersByAccountIds(dataTable);
-            depositesOrWithdraws.ConvertAll(x => (BaseTransactionDto)x);
-            transfers.ConvertAll(x => (BaseTransactionDto)x);
+            await Task.Run(() => depositesOrWithdraws.ConvertAll(x => (BaseTransactionDto)x));
+            await Task.Run(() => transfers.ConvertAll(x => (BaseTransactionDto)x));
             var transactions = new List<BaseTransactionDto>();
             transactions.AddRange(depositesOrWithdraws);
             transactions.AddRange(transfers);
