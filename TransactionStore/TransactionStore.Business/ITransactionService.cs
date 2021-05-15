@@ -6,10 +6,10 @@ namespace TransactionStore.Business
 {
     public interface ITransactionService
     {
-        Task<int> AddDeposite(SimpleTransactionDto dto);
-        Task<int> AddWithdraw(SimpleTransactionDto dto);
-        Task<(int, int)> AddTransfer(TransferDto dto);
-        Task<List<BaseTransactionDto>> GetTransactionsByAccountIds(List<int> AccountIds);
-        Task<WholeBalanceDto> GetBalance(List<int> accounts, string currancy);
+        Task<int> AddDepositeAsync(SimpleTransactionDto dto);
+        Task<int> AddWithdrawAsync(SimpleTransactionDto dto);
+        Task<(int, int)> AddTransferAsync(TransferDto dto);
+        Task<List<BaseTransactionDto>> GetTransactionsByAccountIdsAsync(List<int> AccountIds);
+        Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currancy);
     }
 }

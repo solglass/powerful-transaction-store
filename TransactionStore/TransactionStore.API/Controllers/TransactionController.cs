@@ -40,7 +40,7 @@ namespace TransactionStore.API.Controllers
                 return Conflict();
             }
             var transactionDto =  _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId =  await _transactionService.AddDeposite(transactionDto);
+            var transactionId =  await _transactionService.AddDepositeAsync(transactionDto);
             return Ok(transactionId);
         }
         /// <summary>
@@ -59,7 +59,7 @@ namespace TransactionStore.API.Controllers
                 return Conflict();
             }
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId = await _transactionService.AddWithdraw(transactionDto);
+            var transactionId = await _transactionService.AddWithdrawAsync(transactionDto);
             return Ok(transactionId);
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace TransactionStore.API.Controllers
                 return Conflict();
             }
             var transferDto = _mapper.Map<TransferDto>(transfer);
-            var transferIds = await _transactionService.AddTransfer(transferDto);
+            var transferIds = await _transactionService.AddTransferAsync(transferDto);
             string serialized = JsonConvert.SerializeObject(transferIds, Formatting.Indented);
             return Ok(serialized);
         }
@@ -95,7 +95,7 @@ namespace TransactionStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<string>> GetTransactionsListByAccountIds([FromBody] List<int> accountIds)
         {                  
-            var dto = await _transactionService.GetTransactionsByAccountIds(accountIds);
+            var dto = await _transactionService.GetTransactionsByAccountIdsAsync(accountIds);
             var result = _mapper.Map<List<BaseTransactionOutputModel>>(dto);
             string serialized = JsonConvert.SerializeObject(result, Formatting.Indented);
             return Ok(serialized);
@@ -111,7 +111,7 @@ namespace TransactionStore.API.Controllers
         [HttpPost("balance")]
         public async Task<ActionResult<WholeBalanceOutputModel>> GetBalance([FromBody] AccountBalanceInputModel inputModel)
         {
-            var balance = await _transactionService.GetBalance(inputModel.AccountIds, inputModel.Currency);
+            var balance = await _transactionService.GetBalanceAsync(inputModel.AccountIds, inputModel.Currency);
             var result = _mapper.Map<WholeBalanceOutputModel>(balance);
             return Ok(result);
         }

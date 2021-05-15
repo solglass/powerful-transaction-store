@@ -17,7 +17,7 @@ namespace TransactionStore.Data
             _connection = new SqlConnection(_connectionString);
         }
 
-        public async Task<int> AddDepositeOrWithdraw(SimpleTransactionDto transaction)
+        public async Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto transaction)
         {
             var result = await _connection
                      .QuerySingleAsync<int>("dbo.Transaction_AddDepositOrWithdraw",
@@ -32,7 +32,7 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public async Task<(int, int)> AddTransfer(TransferDto transfer)
+        public async Task<(int, int)> AddTransferAsync(TransferDto transfer)
         {
             var result = await _connection
                     .QueryFirstOrDefaultAsync<(int, int)>("dbo.Transaction_AddTransfer",
@@ -49,28 +49,30 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIds(DataTable accountIds)
+        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdsAsync(DataTable accountIds)
         {
-            var transactions = await _connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountIdsList",
+            using var connection = new SqlConnection(_connectionString);
+            var transactions = (await connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountIdsList",
             new { accountIds },
-            commandType: CommandType.StoredProcedure);
-            return transactions.ToList();
+            commandType: CommandType.StoredProcedure)).ToList();
+            return transactions;
         }
-        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountId(int accountId)
+        public async Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdAsync(int accountId)
         {
-            var transactions = await _connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
+            var transactions = (await _connection.QueryAsync<SimpleTransactionDto>("dbo.Transaction_SelectByAccountId",
             new { accountId },
-            commandType: CommandType.StoredProcedure);
-            return transactions.ToList();
+            commandType: CommandType.StoredProcedure)).ToList();
+            return transactions;
         }
-        public async Task <List<TransferDto>> GetTransfersByAccountIds(DataTable accountIds)
+        public async Task <List<TransferDto>> GetTransfersByAccountIdsAsync(DataTable accountIds)
         {
-            var transfers = await _connection.QueryAsync<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
+            using var connection = new SqlConnection(_connectionString);
+            var transfers = (await connection.QueryAsync<TransferDto>("dbo.Transaction_SelectTransferByAccountIdsList",
                new { accountIds },
-               commandType: CommandType.StoredProcedure);
-            return transfers.ToList();
+               commandType: CommandType.StoredProcedure)).ToList();
+            return transfers;
         }
-        public async Task<AccountBalanceDto> GetBalanceByAccountId(int accountId)
+        public async Task<AccountBalanceDto> GetBalanceByAccountIdAsync(int accountId)
         {
             var result = await _connection.QueryFirstOrDefaultAsync<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
                     new

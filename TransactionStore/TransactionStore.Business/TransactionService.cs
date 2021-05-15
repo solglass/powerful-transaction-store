@@ -18,48 +18,49 @@ namespace TransactionStore.Business
             _converterService = converterService;
         }
 
-        public async Task<int> AddDeposite(SimpleTransactionDto transaction)
+        public async Task<int> AddDepositeAsync(SimpleTransactionDto transaction)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)1;
-            var result = await _transactionRepository.AddDepositeOrWithdraw(transaction);
+            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction);
             return result;
         }
-        public async Task<int> AddWithdraw(SimpleTransactionDto transaction)
+
+        public async Task<int> AddWithdrawAsync(SimpleTransactionDto transaction)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)2;
-            var result = await _transactionRepository.AddDepositeOrWithdraw(transaction);
+            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction);
             return result;
         }
-        public async Task<(int, int)> AddTransfer(TransferDto transfer) 
+
+        public async Task<(int, int)> AddTransferAsync(TransferDto transfer) 
         {
             transfer.RecipientAmount = _converterService.ConvertAmount(transfer.SenderCurrency.ToString(), transfer.RecipientCurrency.ToString(), transfer.RecipientAmount);
-            var result = await _transactionRepository.AddTransfer(transfer);
+            var result = await _transactionRepository.AddTransferAsync(transfer);
             return result;
         }
-        
-        public async Task<List<BaseTransactionDto>> GetTransactionsByAccountIds(List<int> accountIds)
+
+        public async Task<List<BaseTransactionDto>> GetTransactionsByAccountIdsAsync(List<int> accountIds)
         {
             var dataTable = _converterService.ConvertListToDataTable(accountIds);
-            var depositesOrWithdraws = await _transactionRepository.GetDepositOrWithdrawByAccountIds(dataTable);
-            var transfers = await _transactionRepository.GetTransfersByAccountIds(dataTable);
-            await Task.Run(() => depositesOrWithdraws.ConvertAll(x => (BaseTransactionDto)x));
-            await Task.Run(() => transfers.ConvertAll(x => (BaseTransactionDto)x));
+            var depositesOrWithdraws = _transactionRepository.GetDepositOrWithdrawByAccountIdsAsync(dataTable);
+            var transfers = _transactionRepository.GetTransfersByAccountIdsAsync(dataTable);
+            await Task.WhenAll(new Task[] { depositesOrWithdraws, transfers });
             var transactions = new List<BaseTransactionDto>();
-            transactions.AddRange(depositesOrWithdraws);
-            transactions.AddRange(transfers);
+            transactions.AddRange(depositesOrWithdraws.Result);
+            transactions.AddRange(transfers.Result);
             transactions.ConvertAll(transactions => Decimal.Round(transactions.Amount, 2));
             return transactions;
         }
 
-        public async Task<WholeBalanceDto> GetBalance(List<int> accounts, string currency)
+        public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
         {
             var wholeBalance = new WholeBalanceDto();
             wholeBalance.Accounts = new List<AccountBalanceDto>();
             for (int i = 0; i < accounts.Count; i++)
             {
-                var accountBalanceDto = await _transactionRepository.GetBalanceByAccountId(accounts[i]);
+                var accountBalanceDto = await _transactionRepository.GetBalanceByAccountIdAsync(accounts[i]);
                 if (accountBalanceDto is null)
                     wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0, Currency = null});
                 else

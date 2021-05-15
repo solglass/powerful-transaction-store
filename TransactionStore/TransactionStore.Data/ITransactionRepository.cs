@@ -7,11 +7,11 @@ namespace TransactionStore.Data
 {
     public interface ITransactionRepository
     {
-        Task<int> AddDepositeOrWithdraw(SimpleTransactionDto dto);
-        Task<(int, int)> AddTransfer(TransferDto dto);
-        Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIds(DataTable accountIds);
-        Task<List<TransferDto>> GetTransfersByAccountIds(DataTable accountIds);
-        Task<List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountId(int accountId);
-        Task<AccountBalanceDto> GetBalanceByAccountId(int accountId);
+        Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto dto);
+        Task<(int, int)> AddTransferAsync(TransferDto dto);
+        Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdsAsync(DataTable accountIds);
+        Task<List<TransferDto>> GetTransfersByAccountIdsAsync(DataTable accountIds);
+        Task<List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdAsync(int accountId);
+        Task<AccountBalanceDto> GetBalanceByAccountIdAsync(int accountId);
     }
 }
