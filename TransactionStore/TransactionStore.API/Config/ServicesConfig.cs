@@ -8,8 +8,8 @@ namespace TransactionStore.API.Config
     {
         public static void RegistrateServicesConfig(this IServiceCollection services)
         {
-            services.AddScoped<ITransactionService, TransactionService>();
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddSingleton<ConverterService>();
             services.AddSingleton<CurrencyRatesService>();
         }

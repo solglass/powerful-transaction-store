@@ -18,13 +18,6 @@ namespace TransactionStore.API
         }
         public async Task Consume(ConsumeContext<CurrencyRates> context)
         {
-           // var json = JObject.Parse(context.Message.Value);
-           // var result = json["quotes"].Select(s => new
-           //{
-           //    CurrencyName = (s as JProperty).Name,
-           //    CurrencyValue = (s as JProperty).Value
-           // })
-           // .ToDictionary(k => k.CurrencyName, v => Convert.ToDecimal(v.CurrencyValue));
             _currencyRatesService.CurrencyPair = context.Message.Value;
         }
     }

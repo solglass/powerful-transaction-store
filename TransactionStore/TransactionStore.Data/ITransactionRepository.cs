@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using TransactionStore.Core.Models;
 
 namespace TransactionStore.Data
 {
     public interface ITransactionRepository
     {
-        int AddDepositeOrWithdraw(SimpleTransactionDto dto);
-        (int, int) AddTransfer(TransferDto dto);
-        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountIds(DataTable accountIds);
-        List<TransferDto> GetTransfersByAccountIds(DataTable accountIds);
-        List<SimpleTransactionDto> GetDepositOrWithdrawByAccountId(int accountId);
-        AccountBalanceDto GetBalanceByAccountId(int accountId);
+        Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto dto);
+        Task<(int, int)> AddTransferAsync(TransferDto dto);
+        Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdsAsync(DataTable accountIds);
+        Task<List<TransferDto>> GetTransfersByAccountIdsAsync(DataTable accountIds);
+        Task<List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdAsync(int accountId);
+        Task<AccountBalanceDto> GetBalanceByAccountIdAsync(int accountId);
     }
 }
