@@ -5,8 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TransactionStore.API.Config;
 using TransactionStore.Core.Settings;
-using MassTransit;
+
 using TransactionStore.API.Middleware;
+using MassTransit;
 
 namespace TransactionStore.API
 {

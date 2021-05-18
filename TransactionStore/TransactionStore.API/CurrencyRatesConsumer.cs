@@ -16,9 +16,10 @@ namespace TransactionStore.API
         {
             _currencyRatesService = currencyRatesService;
         }
-        public async Task Consume(ConsumeContext<CurrencyRates> context)
+        public Task Consume(ConsumeContext<CurrencyRates> context)
         {
             _currencyRatesService.CurrencyPair = context.Message.Value;
+            return Task.CompletedTask;
         }
     }
 }

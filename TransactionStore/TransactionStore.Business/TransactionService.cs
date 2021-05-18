@@ -54,24 +54,68 @@ namespace TransactionStore.Business
             return transactions;
         }
 
+        //public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
+        //{
+        //    var wholeBalance = new WholeBalanceDto();
+        //    wholeBalance.Accounts = new List<AccountBalanceDto>();
+        //    var tasks = new List<Task<AccountBalanceDto>>();
+        //    foreach (var account in accounts)
+        //    {
+        //        var accountBalanceDto = _transactionRepository.GetBalanceByAccountIdAsync(account);
+        //        if (accountBalanceDto.Result is null)
+        //        {
+        //            wholeBalance.Accounts.Add(new AccountBalanceDto()
+        //            { AccountId = account, Amount = 0, Currency = null });
+        //        }
+        //        else
+        //        {
+        //            accountBalanceDto.Result.AccountId = account;
+        //            tasks.Add(accountBalanceDto);
+        //            wholeBalance.Accounts.Add(accountBalanceDto.Result);
+        //        }
+        //    }
+        //    await Task.WhenAll(tasks);
+        //    ProccessWholeBalanceAsync(wholeBalance, currency);
+        //    return wholeBalance;
+        //}
         public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
         {
             var wholeBalance = new WholeBalanceDto();
             wholeBalance.Accounts = new List<AccountBalanceDto>();
+            var tasks = new List<Task<AccountBalanceDto>>();
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                var accountBalanceDto = _transactionRepository.GetBalanceByAccountIdAsync(accounts[i]);
+                tasks.Add(accountBalanceDto);
+            }
+            await Task.WhenAll(tasks);
             for (int i = 0; i < accounts.Count; i++)
             {
-                var accountBalanceDto = await _transactionRepository.GetBalanceByAccountIdAsync(accounts[i]);
-                if (accountBalanceDto is null)
-                    wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0, Currency = null});
+
+                if (tasks[i].Result is null)
+                {
+                    wholeBalance.Accounts.Add(new AccountBalanceDto()
+                    { AccountId = accounts[i], Amount = 0, Currency = null });
+                }
                 else
                 {
-                    accountBalanceDto.AccountId = accounts[i];
-                    wholeBalance.Accounts.Add(accountBalanceDto);
-                    wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
-                }     
+                    tasks[i].Result.AccountId = accounts[i];
+                    wholeBalance.Accounts.Add(tasks[i].Result);
+                }
+            }
+            ProccessWholeBalanceAsync(wholeBalance, currency);
+            return wholeBalance;
+        }
+
+        private void ProccessWholeBalanceAsync(WholeBalanceDto wholeBalance, string currency)
+        {
+            for (int i = 0; i < wholeBalance.Accounts.Count; i++)
+            {
+                if (wholeBalance.Accounts[i].Currency != null)
+                 wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), 
+                 currency, wholeBalance.Accounts[i].Amount);
             }
             wholeBalance.Currency = _converterService.ConvertCurrencyStringToCurrencyEnum(currency);
-            return wholeBalance;
         }
     }
 }
