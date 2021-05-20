@@ -53,42 +53,23 @@ namespace TransactionStore.Business
             transactions.ConvertAll(transactions => Decimal.Round(transactions.Amount, 2));
             return transactions;
         }
-
-        //public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
-        //{
-        //    var wholeBalance = new WholeBalanceDto();
-        //    wholeBalance.Accounts = new List<AccountBalanceDto>();
-        //    var tasks = new List<Task<AccountBalanceDto>>();
-        //    foreach (var account in accounts)
-        //    {
-        //        var accountBalanceDto = _transactionRepository.GetBalanceByAccountIdAsync(account);
-        //        if (accountBalanceDto.Result is null)
-        //        {
-        //            wholeBalance.Accounts.Add(new AccountBalanceDto()
-        //            { AccountId = account, Amount = 0, Currency = null });
-        //        }
-        //        else
-        //        {
-        //            accountBalanceDto.Result.AccountId = account;
-        //            tasks.Add(accountBalanceDto);
-        //            wholeBalance.Accounts.Add(accountBalanceDto.Result);
-        //        }
-        //    }
-        //    await Task.WhenAll(tasks);
-        //    ProccessWholeBalanceAsync(wholeBalance, currency);
-        //    return wholeBalance;
-        //}
         public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
+        {
+            var tasks = new List<Task<AccountBalanceDto>>();
+            foreach(var account in accounts)
+            {
+
+                tasks.Add(_transactionRepository.GetBalanceByAccountIdAsync(account));
+            }
+            await Task.WhenAll(tasks);
+            var wholeBalance = ProccessWholeBalance(tasks, accounts);
+            ConvertWholeBalance(wholeBalance, currency);
+            return wholeBalance;
+        }
+        private WholeBalanceDto ProccessWholeBalance(List<Task<AccountBalanceDto>> tasks, List<int> accounts)
         {
             var wholeBalance = new WholeBalanceDto();
             wholeBalance.Accounts = new List<AccountBalanceDto>();
-            var tasks = new List<Task<AccountBalanceDto>>();
-            for (int i = 0; i < tasks.Count; i++)
-            {
-                var accountBalanceDto = _transactionRepository.GetBalanceByAccountIdAsync(accounts[i]);
-                tasks.Add(accountBalanceDto);
-            }
-            await Task.WhenAll(tasks);
             for (int i = 0; i < accounts.Count; i++)
             {
 
@@ -103,11 +84,9 @@ namespace TransactionStore.Business
                     wholeBalance.Accounts.Add(tasks[i].Result);
                 }
             }
-            ProccessWholeBalanceAsync(wholeBalance, currency);
             return wholeBalance;
         }
-
-        private void ProccessWholeBalanceAsync(WholeBalanceDto wholeBalance, string currency)
+        private void ConvertWholeBalance(WholeBalanceDto wholeBalance, string currency)
         {
             for (int i = 0; i < wholeBalance.Accounts.Count; i++)
             {
