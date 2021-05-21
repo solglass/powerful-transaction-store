@@ -53,25 +53,48 @@ namespace TransactionStore.Business
             transactions.ConvertAll(transactions => Decimal.Round(transactions.Amount, 2));
             return transactions;
         }
-
         public async Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currency)
+        {
+            var tasks = new List<Task<AccountBalanceDto>>();
+            foreach(var account in accounts)
+            {
+
+                tasks.Add(_transactionRepository.GetBalanceByAccountIdAsync(account));
+            }
+            await Task.WhenAll(tasks);
+            var wholeBalance = ProccessWholeBalance(tasks, accounts);
+            ConvertWholeBalance(wholeBalance, currency);
+            return wholeBalance;
+        }
+        private WholeBalanceDto ProccessWholeBalance(List<Task<AccountBalanceDto>> tasks, List<int> accounts)
         {
             var wholeBalance = new WholeBalanceDto();
             wholeBalance.Accounts = new List<AccountBalanceDto>();
             for (int i = 0; i < accounts.Count; i++)
             {
-                var accountBalanceDto = await _transactionRepository.GetBalanceByAccountIdAsync(accounts[i]);
-                if (accountBalanceDto is null)
-                    wholeBalance.Accounts.Add(new AccountBalanceDto() { AccountId = accounts[i], Amount = 0, Currency = null});
+
+                if (tasks[i].Result is null)
+                {
+                    wholeBalance.Accounts.Add(new AccountBalanceDto()
+                    { AccountId = accounts[i], Amount = 0, Currency = null });
+                }
                 else
                 {
-                    accountBalanceDto.AccountId = accounts[i];
-                    wholeBalance.Accounts.Add(accountBalanceDto);
-                    wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), currency, wholeBalance.Accounts[i].Amount);
-                }     
+                    tasks[i].Result.AccountId = accounts[i];
+                    wholeBalance.Accounts.Add(tasks[i].Result);
+                }
+            }
+            return wholeBalance;
+        }
+        private void ConvertWholeBalance(WholeBalanceDto wholeBalance, string currency)
+        {
+            for (int i = 0; i < wholeBalance.Accounts.Count; i++)
+            {
+                if (wholeBalance.Accounts[i].Currency != null)
+                 wholeBalance.Balance += _converterService.ConvertAmount(wholeBalance.Accounts[i].Currency.ToString(), 
+                 currency, wholeBalance.Accounts[i].Amount);
             }
             wholeBalance.Currency = _converterService.ConvertCurrencyStringToCurrencyEnum(currency);
-            return wholeBalance;
         }
     }
 }

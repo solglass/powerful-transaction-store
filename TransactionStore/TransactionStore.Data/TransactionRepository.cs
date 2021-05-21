@@ -74,7 +74,8 @@ namespace TransactionStore.Data
         }
         public async Task<AccountBalanceDto> GetBalanceByAccountIdAsync(int accountId)
         {
-            var result = await _connection.QueryFirstOrDefaultAsync<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
+            using var connection = new SqlConnection(_connectionString);
+            var result = await connection.QueryFirstOrDefaultAsync<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
                     new
                     { accountId },
                     commandType: CommandType.StoredProcedure);
