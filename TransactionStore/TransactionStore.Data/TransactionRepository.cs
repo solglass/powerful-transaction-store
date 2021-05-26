@@ -7,6 +7,7 @@ using Dapper;
 using System.Linq;
 using System.Data;
 using System.Threading.Tasks;
+using System;
 
 namespace TransactionStore.Data
 {
@@ -32,7 +33,7 @@ namespace TransactionStore.Data
             return result;
         }
 
-        public async Task<(int, int)> AddTransferAsync(TransferDto transfer)
+        public async Task<(int, int)> AddTransferAsync(TransferDto transfer, DateTime timestamp)
         {
             var result = await _connection
                     .QueryFirstOrDefaultAsync<(int, int)>("dbo.Transaction_AddTransfer",
@@ -43,7 +44,8 @@ namespace TransactionStore.Data
                         senderAmount = transfer.SenderAmount,
                         recipientAmount = transfer.RecipientAmount,
                         senderСurrency = transfer.SenderCurrency,
-                        recipientСurrency = transfer.RecipientCurrency
+                        recipientСurrency = transfer.RecipientCurrency,
+                        timestampOld = timestamp
                     },
                     commandType: CommandType.StoredProcedure);
             return result;
@@ -76,6 +78,15 @@ namespace TransactionStore.Data
         {
             using var connection = new SqlConnection(_connectionString);
             var result = await connection.QueryFirstOrDefaultAsync<AccountBalanceDto>("dbo.Transaction_GetBalanceByAccountId",
+                    new
+                    { accountId },
+                    commandType: CommandType.StoredProcedure);
+            return result;
+        }
+        public async Task<AccountBalanceWithTimestampDto> GetBalanceByAccountIdWithTimestampAsync(int accountId)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            var result = await connection.QueryFirstOrDefaultAsync<AccountBalanceWithTimestampDto>("dbo.Transaction_GetBalanceByAccountIdWithTimestamp",
                     new
                     { accountId },
                     commandType: CommandType.StoredProcedure);

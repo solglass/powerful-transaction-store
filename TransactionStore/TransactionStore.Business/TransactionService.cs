@@ -34,10 +34,10 @@ namespace TransactionStore.Business
             return result;
         }
 
-        public async Task<(int, int)> AddTransferAsync(TransferDto transfer) 
+        public async Task<(int, int)> AddTransferAsync(TransferDto transfer, DateTime timestamp) 
         {
             transfer.RecipientAmount = _converterService.ConvertAmount(transfer.SenderCurrency.ToString(), transfer.RecipientCurrency.ToString(), transfer.RecipientAmount);
-            var result = await _transactionRepository.AddTransferAsync(transfer);
+            var result = await _transactionRepository.AddTransferAsync(transfer, timestamp);
             return result;
         }
 
@@ -65,6 +65,10 @@ namespace TransactionStore.Business
             var wholeBalance = ProccessWholeBalance(tasks, accounts);
             ConvertWholeBalance(wholeBalance, currency);
             return wholeBalance;
+        }
+        public async Task<AccountBalanceWithTimestampDto> GetBalanceWithTimestampAsync(int accountId)
+        {
+           return await _transactionRepository.GetBalanceByAccountIdWithTimestampAsync(accountId);
         }
         private WholeBalanceDto ProccessWholeBalance(List<Task<AccountBalanceDto>> tasks, List<int> accounts)
         {

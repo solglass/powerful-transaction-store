@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
@@ -75,10 +76,15 @@ namespace TransactionStore.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Conflict();
+                return Conflict(); 
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync( transfer.SenderAccount.AccountId);
+            if (balance.Amount < transfer.Amount)
+                return BadRequest("Not enough funds");
+            
             var transferDto = _mapper.Map<TransferDto>(transfer);
-            var transferIds = await _transactionService.AddTransferAsync(transferDto);
+
+            var transferIds = await _transactionService.AddTransferAsync(transferDto, (DateTime)balance.Timestamp);
             string serialized = JsonConvert.SerializeObject(transferIds, Formatting.Indented);
             return Ok(serialized);
         }
