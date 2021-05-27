@@ -8,7 +8,7 @@ namespace TransactionStore.Data
 {
     public interface ITransactionRepository
     {
-        Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto dto);
+        Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto dto, DateTime timestamp);
         Task<(int, int)> AddTransferAsync(TransferDto dto, DateTime timestamp);
         Task <List<SimpleTransactionDto>> GetDepositOrWithdrawByAccountIdsAsync(DataTable accountIds);
         Task<List<TransferDto>> GetTransfersByAccountIdsAsync(DataTable accountIds);

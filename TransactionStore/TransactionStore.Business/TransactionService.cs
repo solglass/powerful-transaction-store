@@ -18,19 +18,19 @@ namespace TransactionStore.Business
             _converterService = converterService;
         }
 
-        public async Task<int> AddDepositeAsync(SimpleTransactionDto transaction)
+        public async Task<int> AddDepositeAsync(SimpleTransactionDto transaction, DateTime timestamp)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)1;
-            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction);
+            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction, timestamp);
             return result;
         }
 
-        public async Task<int> AddWithdrawAsync(SimpleTransactionDto transaction)
+        public async Task<int> AddWithdrawAsync(SimpleTransactionDto transaction, DateTime timestamp)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)2;
-            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction);
+            var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction, timestamp);
             return result;
         }
 
@@ -69,6 +69,18 @@ namespace TransactionStore.Business
         public async Task<AccountBalanceWithTimestampDto> GetBalanceWithTimestampAsync(int accountId)
         {
            return await _transactionRepository.GetBalanceByAccountIdWithTimestampAsync(accountId);
+        }
+
+        public async Task<decimal> ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount) 
+        {
+            if (senderCurrency == recipientCurrency)
+            {
+                return amount;
+            }
+            else
+            {
+                 return _converterService.ConvertAmount(senderCurrency, recipientCurrency, amount);
+            }
         }
         private WholeBalanceDto ProccessWholeBalance(List<Task<AccountBalanceDto>> tasks, List<int> accounts)
         {

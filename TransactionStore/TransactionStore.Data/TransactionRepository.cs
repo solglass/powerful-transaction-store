@@ -18,7 +18,7 @@ namespace TransactionStore.Data
             _connection = new SqlConnection(_connectionString);
         }
 
-        public async Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto transaction)
+        public async Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto transaction, DateTime timestamp)
         {
             var result = await _connection
                      .QuerySingleAsync<int>("dbo.Transaction_AddDepositOrWithdraw",
@@ -27,7 +27,8 @@ namespace TransactionStore.Data
                          AccountId = transaction.AccountId,
                          amount = transaction.Amount,
                          currency = (int)transaction.Currency,
-                         type = (int)transaction.Type
+                         type = (int)transaction.Type,
+                         timestampOld = timestamp
                      },
                      commandType: CommandType.StoredProcedure);
             return result;

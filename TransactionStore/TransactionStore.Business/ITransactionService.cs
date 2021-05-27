@@ -7,11 +7,12 @@ namespace TransactionStore.Business
 {
     public interface ITransactionService
     {
-        Task<int> AddDepositeAsync(SimpleTransactionDto dto);
-        Task<int> AddWithdrawAsync(SimpleTransactionDto dto);
+        Task<int> AddDepositeAsync(SimpleTransactionDto dto, DateTime timestamp);
+        Task<int> AddWithdrawAsync(SimpleTransactionDto dto, DateTime timestamp);
         Task<(int, int)> AddTransferAsync(TransferDto dto, DateTime timestamp);
         Task<List<BaseTransactionDto>> GetTransactionsByAccountIdsAsync(List<int> AccountIds);
         Task<WholeBalanceDto> GetBalanceAsync(List<int> accounts, string currancy);
         Task<AccountBalanceWithTimestampDto> GetBalanceWithTimestampAsync(int accountId);
+        Task<decimal> ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount);
     }
 }

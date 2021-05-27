@@ -40,8 +40,10 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync(transaction.Account.AccountId);
+
             var transactionDto =  _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId =  await _transactionService.AddDepositeAsync(transactionDto);
+            var transactionId =  await _transactionService.AddDepositeAsync(transactionDto, (DateTime)balance.Timestamp);
             return Ok(transactionId);
         }
         /// <summary>
@@ -59,8 +61,13 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync(transaction.Account.AccountId);
+            var balanceInWithdrawCurrency = await _transactionService.ConvertAmount(transaction.Account.Currency, transaction.Value.Currency, balance.Amount);
+            if (balanceInWithdrawCurrency < transaction.Value.Amount)
+                return BadRequest("Not enough funds");
+
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId = await _transactionService.AddWithdrawAsync(transactionDto);
+            var transactionId = await _transactionService.AddWithdrawAsync(transactionDto, (DateTime)balance.Timestamp);
             return Ok(transactionId);
         }
         /// <summary>
