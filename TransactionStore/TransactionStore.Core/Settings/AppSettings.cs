@@ -4,6 +4,6 @@ namespace TransactionStore.Core.Settings
 {
     public class AppSettings
     {
-        public string CONNECTION_STRING { get; set; }
+        public string TSTORE_CONNECTION_STRING { get; set; }
     }
 }
