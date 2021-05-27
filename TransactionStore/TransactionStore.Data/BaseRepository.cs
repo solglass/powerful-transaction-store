@@ -10,7 +10,7 @@ namespace TransactionStore.Data
         protected string _connectionString;
         public BaseRepository(IOptions<AppSettings> options)
         {
-            _connectionString = options.Value.CONNECTION_STRING;
+            _connectionString = options.Value.TSTORE_CONNECTION_STRING;
         }
     }
 }
