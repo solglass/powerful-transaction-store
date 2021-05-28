@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TransactionStore.API.Models.InputModels;
@@ -39,8 +40,10 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync(transaction.Account.AccountId);
+
             var transactionDto =  _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId =  await _transactionService.AddDepositeAsync(transactionDto);
+            var transactionId =  await _transactionService.AddDepositeAsync(transactionDto, (DateTime)balance.Timestamp);
             return Ok(transactionId);
         }
         /// <summary>
@@ -58,8 +61,13 @@ namespace TransactionStore.API.Controllers
             {
                 return Conflict();
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync(transaction.Account.AccountId);
+            var balanceInWithdrawCurrency = await _transactionService.ConvertAmount(transaction.Account.Currency, transaction.Value.Currency, balance.Amount);
+            if (balanceInWithdrawCurrency < transaction.Value.Amount)
+                return BadRequest("Not enough funds");
+
             var transactionDto = _mapper.Map<SimpleTransactionDto>(transaction);
-            var transactionId = await _transactionService.AddWithdrawAsync(transactionDto);
+            var transactionId = await _transactionService.AddWithdrawAsync(transactionDto, (DateTime)balance.Timestamp);
             return Ok(transactionId);
         }
         /// <summary>
@@ -75,10 +83,15 @@ namespace TransactionStore.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Conflict();
+                return Conflict(); 
             }
+            var balance = await _transactionService.GetBalanceWithTimestampAsync( transfer.SenderAccount.AccountId);
+            if (balance.Amount < transfer.Amount)
+                return BadRequest("Not enough funds");
+            
             var transferDto = _mapper.Map<TransferDto>(transfer);
-            var transferIds = await _transactionService.AddTransferAsync(transferDto);
+
+            var transferIds = await _transactionService.AddTransferAsync(transferDto, (DateTime)balance.Timestamp);
             string serialized = JsonConvert.SerializeObject(transferIds, Formatting.Indented);
             return Ok(serialized);
         }
