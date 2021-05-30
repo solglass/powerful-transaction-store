@@ -59,16 +59,18 @@ namespace TransactionStore.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("v1/swagger.json", "TransactionStore");
             });
-
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            if (env.IsProduction())
+            {
+                app.UseMiddleware<IPAccessMiddleware>();
+            }
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
             {

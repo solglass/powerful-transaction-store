@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TransactionStore.Core.CustomExceptions;
+using TransactionStore.Core.Settings;
 
 namespace TransactionStore.API.Middleware
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private const string GlobalErrorMessage = "Problem with this request";
 
 
         public ExceptionMiddleware(RequestDelegate next)
