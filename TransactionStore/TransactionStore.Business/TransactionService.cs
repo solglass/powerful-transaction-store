@@ -18,15 +18,17 @@ namespace TransactionStore.Business
             _converterService = converterService;
         }
 
-        public async Task<int> AddDepositeAsync(SimpleTransactionDto transaction, DateTime timestamp)
+        public async Task<int> AddDepositeAsync(SimpleTransactionDto transaction, AccountBalanceWithTimestampDto balance)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)1;
+            var timestamp = balance?.Timestamp;
+
             var result = await _transactionRepository.AddDepositeOrWithdrawAsync(transaction, timestamp);
             return result;
         }
 
-        public async Task<int> AddWithdrawAsync(SimpleTransactionDto transaction, DateTime timestamp)
+        public async Task<int> AddWithdrawAsync(SimpleTransactionDto transaction, DateTime? timestamp)
         {
             transaction.Amount = _converterService.ConvertAmount(transaction.ValueCurrency.ToString(), transaction.Currency.ToString(), transaction.Amount);
             transaction.Type = (TransactionType)2;
@@ -34,7 +36,7 @@ namespace TransactionStore.Business
             return result;
         }
 
-        public async Task<(int, int)> AddTransferAsync(TransferDto transfer, DateTime timestamp) 
+        public async Task<(int, int)> AddTransferAsync(TransferDto transfer, DateTime? timestamp) 
         {
             transfer.RecipientAmount = _converterService.ConvertAmount(transfer.SenderCurrency.ToString(), transfer.RecipientCurrency.ToString(), transfer.RecipientAmount);
             var result = await _transactionRepository.AddTransferAsync(transfer, timestamp);
@@ -71,17 +73,22 @@ namespace TransactionStore.Business
            return await _transactionRepository.GetBalanceByAccountIdWithTimestampAsync(accountId);
         }
 
-        public async Task<decimal> ConvertAmount(string senderCurrency, string recipientCurrency, decimal amount) 
+        public async Task<decimal> ConvertAmount(string senderCurrency, string recipientCurrency, AccountBalanceWithTimestampDto balance) 
         {
+            if (balance is null)
+            {
+                return 0;
+            }
             if (senderCurrency == recipientCurrency)
             {
-                return amount;
+                return balance.Amount;
             }
             else
             {
-                 return _converterService.ConvertAmount(senderCurrency, recipientCurrency, amount);
+                return _converterService.ConvertAmount(senderCurrency, recipientCurrency, balance.Amount);
             }
         }
+
         private WholeBalanceDto ProccessWholeBalance(List<Task<AccountBalanceDto>> tasks, List<int> accounts)
         {
             var wholeBalance = new WholeBalanceDto();
