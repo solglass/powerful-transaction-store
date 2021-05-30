@@ -67,10 +67,10 @@ namespace TransactionStore.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            if (env.IsProduction())
-            {
-                app.UseMiddleware<IPAccessMiddleware>();
-            }
+            //if (env.IsProduction())
+            //{
+            //    app.UseMiddleware<IPAccessMiddleware>();
+            //}
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
             {
