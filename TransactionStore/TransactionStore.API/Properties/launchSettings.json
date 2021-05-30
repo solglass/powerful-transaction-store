@@ -15,7 +15,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "TSTORE_CONNECTION_STRING": "Data Source=80.78.240.16;Initial Catalog=TransactionStore;Persist Security Info=True;User ID=student;Password=qwe!23"
+        "TSTORE_CONNECTION_STRING": "Data Source=80.78.240.16;Initial Catalog=TransactionStore;Persist Security Info=True;User ID=student;Password=qwe!23",
+        "TSTORE_ALLOWED_IPADDRESS": "79.134.222.77:9855"
       }
     },
     "TransactionStore.API": {
