@@ -21,7 +21,7 @@ namespace TransactionStore.Data
         public async Task<int> AddDepositeOrWithdrawAsync(SimpleTransactionDto transaction, DateTime? timestamp)
         {
             var result = await _connection
-                     .QuerySingleAsync<int>("dbo.Transaction_AddDepositOrWithdrawTest",
+                     .QuerySingleAsync<int>("dbo.Transaction_AddDepositOrWithdraw",
                      new
                      {
                          AccountId = transaction.AccountId,
@@ -37,7 +37,7 @@ namespace TransactionStore.Data
         public async Task<(int, int)> AddTransferAsync(TransferDto transfer, DateTime? timestamp)
         {
             var result = await _connection
-                    .QueryFirstOrDefaultAsync<(int, int)>("dbo.Transaction_AddTransferTest",
+                    .QueryFirstOrDefaultAsync<(int, int)>("dbo.Transaction_AddTransfer",
                     new
                     {
                         senderAccountId = transfer.SenderAccountId,
